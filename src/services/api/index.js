@@ -1,51 +1,61 @@
-import { AxiosResponse } from "axios";
-import { api } from "./api";
+import { api } from "./apiService";
+
+const netError = {
+	result: null,
+	errors: [{
+		property: "",
+		message: "Erro de conexão."
+	}]
+}
 
 export const getQueryFor = async (route) => {
-    const response = await api.get(route);
+	const response = await api.get(route);
 
-    return {
-        response,
-        data: response.data
-    };
+	return {
+		response,
+		data: response.data
+	};
 }
 
 export const postQueryFor = async (route, data) => {
-    try {
-        const response = await api.post(route, data);
+	try {
+		const response = await api.post(route, data);
 
-        return (response, response.data);
-    } catch (error) {
-        return (error.response, error.response.data);
-    }
+		return { response, data: response.data };
+	} catch (error) {
+		if (!error.response)
+			return { response: null, data: netError }
+
+		return { response: error.response, data: error.response.data };
+	}
 }
 
 export const putQueryFor = async (route, data) => {
-    const response = await api.put(route, data);
+	const response = await api.put(route, data);
 
-    return (response, response.data);
+	return (response, response.data);
 }
 
 export const deleteQueryFor = async (route) => {
-    const response = await api.delete < Number > (route);
+	const response = await api.delete < Number > (route);
 
-    return (response, response.data);
+	return (response, response.data);
 };
 
 export const downloadFileFor = async (route, fileName) => {
-    const response = await api.get(route);
+	const response = await api.get(route);
 
-    const blob = new Blob([response.data]);
+	const blob = new Blob([response.data]);
 
-    const url = window.URL.createObjectURL(blob);
+	const url = window.URL.createObjectURL(blob);
 
-    const a = document.createElement("a");
+	const a = document.createElement("a");
 
-    a.href = url;
+	a.href = url;
 
-    a.download = fileName;
+	a.download = fileName;
 
-    a.click();
+	a.click();
 }
 
 // export const uploadFileFor = async (route, file) => {

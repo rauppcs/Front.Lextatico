@@ -1,4 +1,4 @@
-import { Box, Button, styled, FormControl as Form } from "@material-ui/core";
+import { Box, Button, styled, FormControl as Form, TextField } from "@material-ui/core";
 
 export const LextaticoImg = styled("img")({
     borderRadius: "5px",
@@ -29,9 +29,13 @@ export const LextaticoForm = styled(Form)({
     borderRadius: "5px",
     width: "400px",
     padding: "20px",
-    display: "flex",
     flexDirection: "column",
     alignItems: "center"
+});
+
+export const LextaticoTextField = styled(TextField)({
+    width: "100%",
+    marginBottom: "15px"
 });
 
 export const LextaticoButton = styled(Button)(({ theme }) => ({
