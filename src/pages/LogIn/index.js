@@ -9,8 +9,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 
 const LogIn = (props) => {
-
-
     const [loading, setLoading] = useState(false);
     const [formUser, setFormUser] = useState({
         errors: [],
@@ -37,14 +35,14 @@ const LogIn = (props) => {
             password: formUser.password.value
         };
 
-        const response = await AccountService.postLogin(user);
+        const { data } = await AccountService.postLogin(user);
 
-        if (response.errors.length === 0) {
-            login(response.result);
+        if (data.errors.length === 0) {
+            login(data.result);
             props.history.push("/");
         }
         else {
-            response.errors.forEach(({ property, message }) => {
+            data.errors.forEach(({ property, message }) => {
                 if (property !== "")
                     formUser[property.toLowerCase()].error = message;
                 else {

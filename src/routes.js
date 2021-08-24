@@ -1,20 +1,43 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { isAuthenticated } from "./services/authService";
 import LogIn from "./pages/LogIn";
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
-	<Route
-		{...rest}
-		render={props =>
-			isAuthenticated() ? (
-				<Component {...props} />
-			) : (
-				<Redirect to={{ pathname: "/login", state: { from: props.location } }} />
-			)
+const PrivateRoute = ({ component: Component, ...rest }) => {
+	const [authenticationLoading, setAuthenticationLoading] = useState({
+		loading: true,
+		authenticated: false
+	});
+
+	useEffect(() => {
+		async function teste() {
+			const authenticated = await isAuthenticated();
+			
+			setAuthenticationLoading({
+				loading: false,
+				authenticated
+			});
 		}
-	/>
-);
+		
+		teste();
+	}, []);
+
+	console.log(authenticationLoading);
+
+	return (
+		!authenticationLoading.loading ?
+		<Route
+			{...rest}
+			render={props =>
+				authenticationLoading.authenticated ? (
+					<Component {...props} />
+				) : (
+					<Redirect to={{ pathname: "/login", state: { from: props.location } }} />
+				)
+			}
+		/> : ""
+	);
+}
 
 const Routes = () => (
 	<BrowserRouter>

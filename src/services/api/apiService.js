@@ -6,10 +6,19 @@ export const api = axios.create({
 });
 
 api.interceptors.request.use(async config => {
-	const token = getToken();
-	if (token) {
-		config.headers.Authorization = `Bearer ${token}`;
+	const { accessToken } = getToken();
+	if (accessToken) {
+		config.headers.Authorization = `Bearer ${accessToken}`;
 	}
 
 	return config;
+});
+
+api.interceptors.response.use(resp => resp, (error) => {
+	if (!error.response) {
+		alert(error);
+		return Promise.reject(error);
+	} else {
+		return Promise.reject(error);
+	}
 });

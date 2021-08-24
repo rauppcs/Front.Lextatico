@@ -8,56 +8,98 @@ const netError = {
 	}]
 }
 
-export const getQueryFor = async (route) => {
-	const response = await api.get(route);
+export const httpStatusCodeValid = (statusCode) => {
+	return statusCode >= 200 && statusCode < 299;
+}
 
-	return {
-		response,
-		data: response.data
-	};
+export const getQueryFor = async (route) => {
+	try {
+		const response = await api.get(route);
+
+		return response;
+	} catch (error) {
+		if (!error.response) {
+			error.response = {
+				status: 999,
+				data: netError
+			}
+		}
+
+		return error.response;
+	}
 }
 
 export const postQueryFor = async (route, data) => {
 	try {
 		const response = await api.post(route, data);
-
-		return { response, data: response.data };
+		
+		return response;
 	} catch (error) {
-		if (!error.response)
-			return { response: null, data: netError }
+		if (!error.response) {
+			error.response = {
+				status: 999,
+				data: netError
+			}
+		}
 
-		return { response: error.response, data: error.response.data };
+		return error.response;
 	}
 }
 
 export const putQueryFor = async (route, data) => {
-	const response = await api.put(route, data);
+	try {
+		const response = await api.put(route, data);
 
-	return (response, response.data);
+		return response;
+	} catch (error) {
+		if (!error.response) {
+			error.response = {
+				status: 999,
+				data: netError
+			}
+		}
+
+		return error.response;
+	}
 }
 
 export const deleteQueryFor = async (route) => {
-	const response = await api.delete < Number > (route);
+	try {
+		const response = await api.delete < Number > (route);
 
-	return (response, response.data);
+		return response;
+	} catch (error) {
+		if (!error.response) {
+			error.response = {
+				status: 999,
+				data: netError
+			}
+		}
+
+		return error.response;
+	}
 };
 
 export const downloadFileFor = async (route, fileName) => {
-	const response = await api.get(route);
+	try {
+		const response = await api.get(route);
 
-	const blob = new Blob([response.data]);
+		const blob = new Blob([response.data]);
 
-	const url = window.URL.createObjectURL(blob);
+		const url = window.URL.createObjectURL(blob);
 
-	const a = document.createElement("a");
+		const a = document.createElement("a");
 
-	a.href = url;
+		a.href = url;
 
-	a.download = fileName;
+		a.download = fileName;
 
-	a.click();
+		a.click();
+	} catch (error) {
+		if (!error.response) {
+			error.response.data = netError;
+		}
+
+		return error.response;
+	}
 }
-
-// export const uploadFileFor = async (route, file) => {
-
-// }
