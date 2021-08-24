@@ -15,13 +15,13 @@ const result = (data) => {
 
 const AccountService = {
     async getValidateToken() {
-        const response = await getQueryFor("/api/account/validatetoken");
+        const response = await getQueryFor("/api/account/validate-token");
 
         return { response, data: httpStatusCodeValid(response.status)};
     },
 
     async postRefreshToken(token, refreshToken) {
-        const response = await postQueryFor("/api/account/refreshtoken", {
+        const response = await postQueryFor("/api/account/refresh-token", {
             token,
             refreshToken
         });
@@ -31,6 +31,12 @@ const AccountService = {
 
     async postLogin(user) {
         const response = await postQueryFor("/api/account/login", user);
+
+        return { response, data: result(response.data)};
+    },
+
+    async postSignIn(user) {
+        const response = await postQueryFor("/api/account/signin", user);
 
         return { response, data: result(response.data)};
     }

@@ -1,15 +1,106 @@
-import React, { useState } from "react"
+import React, { useContext, useState, Fragment } from "react"
+import { makeStyles } from '@material-ui/core/styles'
+import SwipeableViews from "react-swipeable-views"
 import { Link as RouterLink, withRouter } from "react-router-dom"
-import { Link } from "@material-ui/core";
-import { LextaticoTextField, LextaticoBoxError, LextaticoBox, LextaticoForm, LextaticoButton, LextaticoHr, LextaticoImg } from "./styles"
+import { Button, Grid, Link } from "@material-ui/core";
+import { LextaticoTextField, LextaticoBoxError, LextaticoBox, LextaticoForm, LextaticoFormContentCenter, LextaticoFormContentLeft, LextaticoButton, LextaticoHr, LextaticoImg, LextaticoLinks } from "./styles"
 import Logo from "../../assets/Logo.png"
 import AccountService from "../../services/accountService"
 import { login } from "../../services/authService"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { faSpinner, faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons'
+import { MyContext } from "../../App";
 
-const LogIn = (props) => {
+const FormUser = ({ formUser, setFormUser, handleSubmit, isOk, loading, forgotHandleClick }) => {
+    const styles = {
+        gridCenter: {
+            display: "flex",
+            justifyContent: "center"
+        },
+        link: {
+            cursor: "pointer"
+        }
+    };
+
+    return (
+        <LextaticoFormContentCenter>
+            <LextaticoImg src={Logo} alt="Lextatico logo" />
+            {formUser.errors.length > 0 && <LextaticoBoxError>{formUser.errors.map(error => error)}</LextaticoBoxError>}
+            <LextaticoTextField
+                type="email"
+                label="Endereço de e-mail"
+                variant="outlined"
+                value={formUser.email.value}
+                error={formUser.email.error !== ""}
+                helperText={formUser.email.error}
+                onChange={e => setFormUser((prev) => ({ ...prev, email: { value: e.target.value, error: "" } }))}
+            />
+            <LextaticoTextField
+                type="password"
+                label="Senha"
+                variant="outlined"
+                value={formUser.password.value}
+                error={formUser.password.error !== ""}
+                helperText={formUser.password.error}
+                onChange={e => setFormUser((prev) => ({ ...prev, password: { value: e.target.value, error: "" } }))}
+            />
+            <LextaticoButton onClick={handleSubmit} disabled={!isOk} type="submit">{!loading
+                ? "Entrar"
+                : <FontAwesomeIcon color="#fff" size="2x" icon={faSpinner} spin />}
+            </LextaticoButton>
+            <LextaticoHr />
+            <Grid direction="row" container sm={12}>
+                <Grid sm={5} style={styles.gridCenter} item>
+                    <Link onClick={forgotHandleClick} style={styles.link}>Esqueceu sua senha?</Link>
+                </Grid>
+                <Grid sm={2} style={styles.gridCenter} item>
+                    <span>.</span>
+                </Grid>
+                <Grid sm={5} style={styles.gridCenter} item>
+                    <Link component={RouterLink} to="/signin">Cadastrar-se</Link>
+                </Grid>
+            </Grid>
+        </LextaticoFormContentCenter>
+    );
+}
+
+const ForgotPassword = ({ forgotBackHandleClick }) => {
+    return (
+        <LextaticoFormContentLeft>
+            <Button onClick={forgotBackHandleClick}><FontAwesomeIcon color="#fff" size="2x" icon={faArrowCircleLeft} /></Button>
+        </LextaticoFormContentLeft>
+    )
+}
+
+const SwipeableForm = ({ ...props }) => {
+    const [activeStepe, setActiveStep] = useState(0);
+
+    const forgotHandleClick = () => {
+        setActiveStep(1);
+    }
+
+    const forgotBackHandleClick = () => {
+        setActiveStep(0);
+    }
+
+    return (
+        <LextaticoBox>
+            <LextaticoForm>
+                <SwipeableViews index={activeStepe}>
+                    <FormUser {...props} forgotHandleClick={forgotHandleClick} />
+                    <ForgotPassword forgotBackHandleClick={forgotBackHandleClick} />
+                </SwipeableViews>
+            </LextaticoForm>
+
+        </LextaticoBox>
+    );
+}
+
+const Login = (props) => {
+    const { setSnackBar } = useContext(MyContext);
+
     const [loading, setLoading] = useState(false);
+
     const [formUser, setFormUser] = useState({
         errors: [],
         email: {
@@ -24,70 +115,45 @@ const LogIn = (props) => {
 
     const isOk = formUser.email.value !== "" && formUser.password.value !== "";
 
-    const handleSignUp = async e => {
-        setLoading(true);
+    const handleSubmit = async e => {
+        try {
+            setLoading(true);
 
-        formUser.errors = [];
-        setFormUser((prev) => ({ ...prev, formUser }))
+            formUser.errors = [];
+            setFormUser((prev) => ({ ...prev, formUser }))
 
-        const user = {
-            email: formUser.email.value,
-            password: formUser.password.value
-        };
+            const user = {
+                email: formUser.email.value,
+                password: formUser.password.value
+            };
 
-        const { data } = await AccountService.postLogin(user);
+            const { data } = await AccountService.postLogin(user);
 
-        if (data.errors.length === 0) {
-            login(data.result);
-            props.history.push("/");
+            if (data.errors.length === 0) {
+                login(data.result);
+                props.history.push("/");
+            }
+            else {
+                data.errors.forEach(({ property, message }) => {
+                    if (property !== "")
+                        formUser[property].error = message;
+                    else {
+                        formUser.errors.push(message)
+                    }
+                });
+
+                setFormUser((prev) => ({ ...prev, formUser }));
+            }
+        } catch (error) {
+            setSnackBar((prev) => ({ ...prev, open: true, severity: "error", message: "Erro de conexão." }));
+        } finally {
+            setLoading(false);
         }
-        else {
-            data.errors.forEach(({ property, message }) => {
-                if (property !== "")
-                    formUser[property.toLowerCase()].error = message;
-                else {
-                    formUser.errors.push(message)
-                }
-            });
-
-            setFormUser((prev) => ({ ...prev, formUser }));
-        }
-
-        setLoading(false);
     };
 
     return (
-        <LextaticoBox>
-            <LextaticoForm>
-                <LextaticoImg src={Logo} alt="Lextatico logo" />
-                {formUser.errors.length > 0 && <LextaticoBoxError>{formUser.errors.map(error => error)}</LextaticoBoxError>}
-                <LextaticoTextField
-                    type="email"
-                    label="Endereço de e-mail"
-                    variant="outlined"
-                    value={formUser.email.value}
-                    error={formUser.email.error !== ""}
-                    helperText={formUser.email.error}
-                    onChange={e => setFormUser((prev) => ({ ...prev, email: { value: e.target.value, error: "" } }))}
-                />
-                <LextaticoTextField
-                    type="password"
-                    label="Senha"
-                    variant="outlined"
-                    value={formUser.password.value}
-                    error={formUser.password.error !== ""}
-                    helperText={formUser.password.error}
-                    onChange={e => setFormUser((prev) => ({ ...prev, password: { value: e.target.value, error: "" } }))}
-                />
-                <LextaticoButton onClick={handleSignUp} disabled={!isOk} type="submit">{!loading
-                    ? "Entrar"
-                    : <FontAwesomeIcon color="#fff" size="2x" icon={faSpinner} spin />}
-                </LextaticoButton>
-                <LextaticoHr />
-                <Link component={RouterLink} to="/signin">Cadastrar-se</Link>
-            </LextaticoForm>
-        </LextaticoBox>
+        <SwipeableForm formUser={formUser} setFormUser={setFormUser} handleSubmit={handleSubmit} isOk={isOk} loading={loading} />
     );
 }
 
-export default withRouter(LogIn);
+export default withRouter(Login);

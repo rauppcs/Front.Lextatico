@@ -23,25 +23,14 @@ export const LextaticoBoxError = styled(Box)({
 });
 
 export const LextaticoForm = styled(Form)({
+    display: "flex",
+    justifyContent: "center",
+    backgroundColor: "#424242",
     borderRadius: "5px",
     width: "400px",
-    backgroundColor: "#424242",
-});
-
-export const LextaticoFormContentLeft = styled(Form)({
-    display: "flex",
-    justifyContent: "center",
+    padding: "20px",
     flexDirection: "column",
-    alignItems: "flex-start",
-    padding: "20px"
-});
-
-export const LextaticoFormContentCenter = styled(Form)({
-    display: "flex",
-    justifyContent: "center",
-    flexDirection: "column",
-    alignItems: "center",
-    padding: "20px"
+    alignItems: "center"
 });
 
 export const LextaticoTextField = styled(TextField)({
@@ -56,17 +45,6 @@ export const LextaticoButton = styled(Button)(({ theme }) => ({
     height: 48,
     "&:hover": {
         backgroundColor: theme.palette.primary.light,
-    }
-}));
-
-export const LextaticoLinks = styled("div")(({ theme }) => ({
-    display: "inline-flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    "& span":{
-        margin: "0px 5px 5px 0px"
     }
 }));
 

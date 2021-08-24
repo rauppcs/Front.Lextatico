@@ -30,20 +30,20 @@ export const getQueryFor = async (route) => {
 }
 
 export const postQueryFor = async (route, data) => {
-	try {
+	// try {
 		const response = await api.post(route, data);
 		
 		return response;
-	} catch (error) {
-		if (!error.response) {
-			error.response = {
-				status: 999,
-				data: netError
-			}
-		}
+	// } catch (error) {
+	// 	if (!error.response) {
+	// 		error.response = {
+	// 			status: 999,
+	// 			data: netError
+	// 		}
+	// 	}
 
-		return error.response;
-	}
+	// 	return error.response;
+	// }
 }
 
 export const putQueryFor = async (route, data) => {
