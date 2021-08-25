@@ -23,6 +23,8 @@ api.interceptors.request.use(async config => {
 });
 
 api.interceptors.response.use(resp => resp, (error) => {
+	const { status } = error.response;
+
 	if (!error.response) {
 		error.response = {
 			status: 999,
@@ -30,6 +32,9 @@ api.interceptors.response.use(resp => resp, (error) => {
 		}
 		return Promise.reject(error);
 	}
+
+	if (status === 401)
+		alert("Não autorizado");
 
 	return Promise.resolve(error.response);
 });
