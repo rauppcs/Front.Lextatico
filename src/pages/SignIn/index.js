@@ -56,7 +56,6 @@ const SignIn = (props) => {
             const { data } = await AccountService.postSignIn(user);
 
             if (data.errors.length === 0) {
-                login(data.result);
                 props.history.push("/login");
             }
             else {
@@ -116,6 +115,7 @@ const SignIn = (props) => {
                     value={formUser.confirmPassword.value}
                     error={formUser.confirmPassword.error !== ""}
                     helperText={formUser.confirmPassword.error}
+                    onKeyDown={e => e.key === "Enter" && isOk ? handleSubmit(e) : null}
                     onChange={e => setFormUser((prev) => ({ ...prev, confirmPassword: { value: e.target.value, error: "" } }))}
                 />
                 <LextaticoButton onClick={handleSubmit} disabled={!isOk} type="submit">{!loading

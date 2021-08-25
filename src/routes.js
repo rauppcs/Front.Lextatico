@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom"
 import { isAuthenticated } from "./services/authService"
 import Login from "./pages/LogIn"
@@ -19,27 +19,25 @@ const PublicRoute = ({ component: Component, ...rest }) => {
 }
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-	const { authenticationLoading, setAuthenticationLoading } = useContext(MyContext);
+	const [loading, setLoading] = useState(true);
+	const { authenticated, setAuthenticated } = useContext(MyContext);
 
 	useEffect(() => {
-		async function auhenticated() {
+		(async function() {
 			const authenticated = await isAuthenticated();
 
-			setAuthenticationLoading({
-				loading: false,
-				authenticated
-			});
-		}
+			setAuthenticated(authenticated);
 
-		auhenticated();
-	}, [setAuthenticationLoading]);
+			setLoading(false);
+		})();
+	  }, [setAuthenticated]);
 
 	return (
-		!authenticationLoading.loading ?
+		!loading ?
 			<Route
 				{...rest}
 				render={props =>
-					authenticationLoading.authenticated ? (
+					authenticated ? (
 						<Component {...props} />
 					) : (
 						<Redirect to={{ pathname: "/login", state: { from: props.location } }} />

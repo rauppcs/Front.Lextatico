@@ -6,10 +6,7 @@ import { Alert } from "@material-ui/lab";
 export const MyContext = createContext();
 
 const App = () => {
-	const [authenticationLoading, setAuthenticationLoading] = useState({
-		loading: true,
-		authenticated: false
-	});
+	const [authenticated, setAuthenticated] = useState(false);
 
 	const [snackBar, setSnackBar] = useState({
 		open: false,
@@ -27,7 +24,7 @@ const App = () => {
 
 	return (
 		<Fragment>
-			<MyContext.Provider value={{ setSnackBar, authenticationLoading, setAuthenticationLoading }}>
+			<MyContext.Provider value={{ setSnackBar, authenticated, setAuthenticated }}>
 				<Routes></Routes>
 				<Snackbar anchorOrigin={{ vertical: "top", horizontal: "right" }} open={snackBar.open} autoHideDuration={6000} onClose={handleClose}>
 					<Alert variant="filled" onClose={handleClose} severity={snackBar.severity}>

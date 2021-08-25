@@ -1,12 +1,10 @@
-import React, { useContext, useState, Fragment } from "react"
-import { makeStyles } from '@material-ui/core/styles'
+import React, { useContext, useState } from "react"
 import SwipeableViews from "react-swipeable-views"
 import { Link as RouterLink, withRouter } from "react-router-dom"
 import { Button, Grid, Link } from "@material-ui/core";
-import { LextaticoTextField, LextaticoBoxError, LextaticoBox, LextaticoForm, LextaticoFormContentCenter, LextaticoFormContentLeft, LextaticoButton, LextaticoHr, LextaticoImg, LextaticoLinks } from "./styles"
+import { LextaticoTextField, LextaticoBoxError, LextaticoBox, LextaticoForm, LextaticoFormContentCenter, LextaticoFormContentLeft, LextaticoButton, LextaticoHr, LextaticoImg } from "./styles"
 import Logo from "../../assets/Logo.png"
 import AccountService from "../../services/accountService"
-import { login } from "../../services/authService"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner, faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons'
 import { MyContext } from "../../App";
@@ -42,6 +40,7 @@ const FormUser = ({ formUser, setFormUser, handleSubmit, isOk, loading, forgotHa
                 value={formUser.password.value}
                 error={formUser.password.error !== ""}
                 helperText={formUser.password.error}
+                onKeyDown={e => e.key === "Enter" && isOk ? handleSubmit(e) : null}
                 onChange={e => setFormUser((prev) => ({ ...prev, password: { value: e.target.value, error: "" } }))}
             />
             <LextaticoButton onClick={handleSubmit} disabled={!isOk} type="submit">{!loading
@@ -49,7 +48,7 @@ const FormUser = ({ formUser, setFormUser, handleSubmit, isOk, loading, forgotHa
                 : <FontAwesomeIcon color="#fff" size="2x" icon={faSpinner} spin />}
             </LextaticoButton>
             <LextaticoHr />
-            <Grid direction="row" container sm={12}>
+            <Grid direction="row" container>
                 <Grid sm={5} style={styles.gridCenter} item>
                     <Link onClick={forgotHandleClick} style={styles.link}>Esqueceu sua senha?</Link>
                 </Grid>
@@ -130,8 +129,7 @@ const Login = (props) => {
             const { data } = await AccountService.postLogin(user);
 
             if (data.errors.length === 0) {
-                login(data.result);
-                props.history.push("/");
+                props.history.push("/app");
             }
             else {
                 data.errors.forEach(({ property, message }) => {
@@ -145,7 +143,7 @@ const Login = (props) => {
                 setFormUser((prev) => ({ ...prev, formUser }));
             }
         } catch (error) {
-            setSnackBar((prev) => ({ ...prev, open: true, severity: "error", message: "Erro de conexão." }));
+            setSnackBar((prev) => ({ ...prev, open: true, severity: "error", message: error.response.data.errors.map(({ message }) => `${message}\n`) }));
         } finally {
             setLoading(false);
         }

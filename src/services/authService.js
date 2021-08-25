@@ -18,7 +18,6 @@ export const isAuthenticated = async () => {
 	const { response, data: responseRefreshToken } = await AccountService.postRefreshToken(accessToken, refreshToken);
 
 	if (httpStatusCodeValid(response.status) && responseRefreshToken.errors.length === 0) {
-		login(responseRefreshToken.result);
 		return true;
 	}
 
