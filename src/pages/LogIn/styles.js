@@ -13,15 +13,6 @@ export const LextaticoBox = styled(Box)({
     height: "100vh"
 });
 
-export const LextaticoBoxError = styled(Box)({
-    padding: "10px",
-    color: "#ff3333",
-    border: "1px solid #ff3333",
-    marginBottom: "15px",
-    width: "100%",
-    textAlign: "center"
-});
-
 export const LextaticoForm = styled(Form)({
     borderRadius: "5px",
     width: "400px",
@@ -60,9 +51,10 @@ export const LextaticoButton = styled(Button)(({ theme }) => ({
 }));
 
 export const LextaticoBackButton = styled(Button)(({ theme }) => ({
+    cursor: "pointer",
     borderRadius: "100%",
     height: "60px"
-   
+
 }));
 
 export const LextaticoLinks = styled("div")(({ theme }) => ({

@@ -2,7 +2,8 @@ import React, { useContext, useState } from "react"
 import SwipeableViews from "react-swipeable-views"
 import { Link as RouterLink, withRouter } from "react-router-dom"
 import { Grid, Link } from "@material-ui/core";
-import { LextaticoTextField, LextaticoBoxError, LextaticoBox, LextaticoForm, LextaticoFormContentCenter, LextaticoFormContentLeft, LextaticoButton, LextaticoBackButton, LextaticoHr, LextaticoImg } from "./styles"
+import { LextaticoBoxError } from "../../styles/common"
+import { LextaticoTextField, LextaticoBox, LextaticoForm, LextaticoFormContentCenter, LextaticoFormContentLeft, LextaticoButton, LextaticoBackButton, LextaticoHr, LextaticoImg } from "./styles"
 import Logo from "../../assets/Logo.png"
 import AccountService from "../../services/accountService"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -23,7 +24,7 @@ const FormUser = ({ formUser, setFormUser, handleSubmit, isOk, loading, forgotHa
     return (
         <LextaticoFormContentCenter>
             <LextaticoImg src={Logo} alt="Lextatico logo" />
-            {formUser.errors.length > 0 && <LextaticoBoxError>{formUser.errors.map(error => error)}</LextaticoBoxError>}
+            {formUser.errors.length > 0 && <LextaticoBoxError>{formUser.errors.map(error => <span>* {error}</span>)}</LextaticoBoxError>}
             <LextaticoTextField
                 type="email"
                 label="Endereço de e-mail"

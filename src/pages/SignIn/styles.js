@@ -13,15 +13,6 @@ export const LextaticoBox = styled(Box)({
     height: "100vh"
 });
 
-export const LextaticoBoxError = styled(Box)({
-    padding: "10px",
-    color: "#ff3333",
-    border: "1px solid #ff3333",
-    marginBottom: "15px",
-    width: "100%",
-    textAlign: "center"
-});
-
 export const LextaticoForm = styled(Form)({
     display: "flex",
     justifyContent: "center",

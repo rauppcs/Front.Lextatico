@@ -44,6 +44,8 @@ api.interceptors.response.use(resp => resp, async (error) => {
 		return api.request(error.config);
 	}
 
+	if (status === 401 && error.config && error.config.__isRetryRequest)
+		return Promise.reject(error);
 
 	return Promise.resolve(error.response);
 });
