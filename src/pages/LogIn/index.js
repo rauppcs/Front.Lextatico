@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react"
 import SwipeableViews from "react-swipeable-views"
 import { Link as RouterLink, withRouter } from "react-router-dom"
-import { Button, Grid, Link } from "@material-ui/core";
-import { LextaticoTextField, LextaticoBoxError, LextaticoBox, LextaticoForm, LextaticoFormContentCenter, LextaticoFormContentLeft, LextaticoButton, LextaticoHr, LextaticoImg } from "./styles"
+import { Grid, Link } from "@material-ui/core";
+import { LextaticoTextField, LextaticoBoxError, LextaticoBox, LextaticoForm, LextaticoFormContentCenter, LextaticoFormContentLeft, LextaticoButton, LextaticoBackButton, LextaticoHr, LextaticoImg } from "./styles"
 import Logo from "../../assets/Logo.png"
 import AccountService from "../../services/accountService"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -49,13 +49,13 @@ const FormUser = ({ formUser, setFormUser, handleSubmit, isOk, loading, forgotHa
             </LextaticoButton>
             <LextaticoHr />
             <Grid direction="row" container>
-                <Grid sm={5} style={styles.gridCenter} item>
+                <Grid xs={5} sm={5} style={styles.gridCenter} item>
                     <Link onClick={forgotHandleClick} style={styles.link}>Esqueceu sua senha?</Link>
                 </Grid>
-                <Grid sm={2} style={styles.gridCenter} item>
+                <Grid xs={2} sm={2} style={styles.gridCenter} item>
                     <span>.</span>
                 </Grid>
-                <Grid sm={5} style={styles.gridCenter} item>
+                <Grid xs={5} sm={5} style={styles.gridCenter} item>
                     <Link component={RouterLink} to="/signin">Cadastrar-se</Link>
                 </Grid>
             </Grid>
@@ -66,7 +66,7 @@ const FormUser = ({ formUser, setFormUser, handleSubmit, isOk, loading, forgotHa
 const ForgotPassword = ({ forgotBackHandleClick }) => {
     return (
         <LextaticoFormContentLeft>
-            <Button onClick={forgotBackHandleClick}><FontAwesomeIcon color="#fff" size="2x" icon={faArrowCircleLeft} /></Button>
+            <LextaticoBackButton onClick={forgotBackHandleClick}><FontAwesomeIcon color="#fff" size="2x" icon={faArrowCircleLeft} /></LextaticoBackButton>
         </LextaticoFormContentLeft>
     )
 }

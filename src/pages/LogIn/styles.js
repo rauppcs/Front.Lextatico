@@ -59,13 +59,19 @@ export const LextaticoButton = styled(Button)(({ theme }) => ({
     }
 }));
 
+export const LextaticoBackButton = styled(Button)(({ theme }) => ({
+    borderRadius: "100%",
+    height: "60px"
+   
+}));
+
 export const LextaticoLinks = styled("div")(({ theme }) => ({
     display: "inline-flex",
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    "& span":{
+    "& span": {
         margin: "0px 5px 5px 0px"
     }
 }));

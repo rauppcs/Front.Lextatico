@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import { withRouter, Switch, useRouteMatch, Link, Route } from "react-router-dom"
+import NotFound from "../NotFound";
 
 const LextaticoApp = () => {
     const { path, url } = useRouteMatch();
@@ -18,7 +19,7 @@ const LextaticoApp = () => {
             <Switch>
                 <Route exact path={path} component={() => <h1>App</h1>} />
                 <Route exact path={`${path}/teste`} component={() => <h1>App/teste</h1>} />
-                <Route path="*" component={() => <h1>Page not found</h1>} />
+                <Route path="*" component={NotFound} />
             </Switch>
         </Fragment>
     );

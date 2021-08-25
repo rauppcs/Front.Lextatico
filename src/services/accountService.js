@@ -21,9 +21,8 @@ const AccountService = {
         return { response, data: httpStatusCodeValid(response.status) };
     },
 
-    async postRefreshToken(token, refreshToken) {
+    async postRefreshToken(refreshToken) {
         const response = await postQueryFor("/api/account/refresh-token", {
-            token,
             refreshToken
         });
 

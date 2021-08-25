@@ -8,6 +8,7 @@ import { useContext } from "react"
 import { Home } from "./pages/Home"
 import LextaticoApp from "./pages/LextaticoApp"
 import Loading from "./components/Loading"
+import NotFound from "./pages/NotFound"
 
 const PublicRoute = ({ component: Component, ...rest }) => {
 	return (
@@ -23,14 +24,14 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 	const { authenticated, setAuthenticated } = useContext(MyContext);
 
 	useEffect(() => {
-		(async function() {
+		(async function () {
 			const authenticated = await isAuthenticated();
 
 			setAuthenticated(authenticated);
 
 			setLoading(false);
 		})();
-	  }, [setAuthenticated]);
+	}, [setAuthenticated]);
 
 	return (
 		!loading ?
@@ -56,7 +57,7 @@ const Routes = () => {
 				<PublicRoute path="/login" component={Login} />
 				<PublicRoute path="/SignIn" component={SignIn} />
 				<PrivateRoute path="/app" component={LextaticoApp} />
-				<PublicRoute path="*" component={() => <h1>Page not found</h1>} />
+				<PublicRoute path="*" component={NotFound} />
 			</Switch>
 		</BrowserRouter>
 	);

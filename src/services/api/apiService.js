@@ -1,4 +1,5 @@
 import axios from "axios";
+import AccountService from "../accountService";
 import { getToken } from "../authService";
 
 const netError = {
@@ -22,7 +23,7 @@ api.interceptors.request.use(async config => {
 	return config;
 });
 
-api.interceptors.response.use(resp => resp, (error) => {
+api.interceptors.response.use(resp => resp, async (error) => {
 	const { status } = error.response;
 
 	if (!error.response) {
@@ -33,8 +34,16 @@ api.interceptors.response.use(resp => resp, (error) => {
 		return Promise.reject(error);
 	}
 
-	if (status === 401)
-		alert("Não autorizado");
+	if (status === 401 && error.config && !error.config.__isRetryRequest) {
+		error.config.__isRetryRequest = true;
+
+		const { refreshToken } = getToken();
+
+		await AccountService.postRefreshToken(refreshToken);
+
+		return api.request(error.config);
+	}
+
 
 	return Promise.resolve(error.response);
 });

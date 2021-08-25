@@ -4,16 +4,15 @@ import { Link } from "@material-ui/core";
 import { LextaticoTextField, LextaticoBoxError, LextaticoBox, LextaticoForm, LextaticoButton, LextaticoHr, LextaticoImg } from "./styles"
 import Logo from "../../assets/Logo.png"
 import AccountService from "../../services/accountService"
-import { login } from "../../services/authService"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { MyContext } from "../../App";
 
 const SignIn = (props) => {
-    const { setStateSnackBar } = useContext(MyContext);
+    const { setSnackBar } = useContext(MyContext);
 
     const [loading, setLoading] = useState(false);
-    
+
     const [formUser, setFormUser] = useState({
         errors: [],
         name: {
@@ -35,8 +34,8 @@ const SignIn = (props) => {
     });
 
     const isOk = formUser.name.value !== "" &&
-        formUser.email.value !== "" && 
-        formUser.password.value !== "" && 
+        formUser.email.value !== "" &&
+        formUser.password.value !== "" &&
         formUser.confirmPassword.value !== "";
 
     const handleSubmit = async e => {
@@ -56,6 +55,7 @@ const SignIn = (props) => {
             const { data } = await AccountService.postSignIn(user);
 
             if (data.errors.length === 0) {
+                setSnackBar((prev) => ({ ...prev, open: true, severity: "success", message: "Cadastro realizado com sucesso." }));
                 props.history.push("/login");
             }
             else {
@@ -70,7 +70,7 @@ const SignIn = (props) => {
                 setFormUser((prev) => ({ ...prev, formUser }));
             }
         } catch (error) {
-            setStateSnackBar((prev) => ({ ...prev, open: true, severity: "error", message: "Erro de conexão."}));
+            setSnackBar((prev) => ({ ...prev, open: true, severity: "error", message: "Erro de conexão." }));
         } finally {
             setLoading(false);
         }

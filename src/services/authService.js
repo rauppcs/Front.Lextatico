@@ -8,14 +8,14 @@ export const isAuthenticated = async () => {
 		return false;
 	}
 
-	const { accessToken, refreshToken } = getToken();
+	const { refreshToken } = getToken();
 
 	const { data: tokenValid } = await AccountService.getValidateToken();
 
 	if (tokenValid)
 		return true;
 
-	const { response, data: responseRefreshToken } = await AccountService.postRefreshToken(accessToken, refreshToken);
+	const { response, data: responseRefreshToken } = await AccountService.postRefreshToken(refreshToken);
 
 	if (httpStatusCodeValid(response.status) && responseRefreshToken.errors.length === 0) {
 		return true;
