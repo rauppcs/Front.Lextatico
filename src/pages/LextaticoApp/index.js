@@ -1,15 +1,15 @@
 import { useContext } from "react";
-import { withRouter, Switch, useRouteMatch, Route, Link as RouterLink, NavLink } from "react-router-dom"
+import { withRouter, Switch, useRouteMatch, Route, NavLink } from "react-router-dom"
 import { Button, styled } from "@material-ui/core";
 import { MyContext } from "../../App";
 import Layout from "../../common/components/Layout"
 import NotFound from "../NotFound";
 import AccountService from "../../services/accountService";
 
-const LextaticoApp = ({ location }) => {
+const LextaticoApp = () => {
     const { user, setAuthenticated, setUser } = useContext(MyContext);
 
-    const { path, url } = useRouteMatch();
+    const { path } = useRouteMatch();
 
     const links = [
         {
@@ -21,14 +21,6 @@ const LextaticoApp = ({ location }) => {
             Route: "/app/teste"
         }
     ];
-
-
-    const But = styled(Button)({
-        // margin: "0px 10px 10px 0px", color: "#000", padding: "10px", borderRadius: "5px", textDecoration: "none", backgroundColor: "#ee3"
-        // , "&:hover": {
-        //     backgroundColor: "#f41 !important"
-        // }
-    });
 
     const But2 = styled(Button)({
         margin: "0px 10px 10px 0px", color: "#000", padding: "10px", borderRadius: "5px", textDecoration: "none", backgroundColor: "#ee3"
