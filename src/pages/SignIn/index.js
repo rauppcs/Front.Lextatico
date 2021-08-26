@@ -36,7 +36,8 @@ const SignIn = (props) => {
     const isOk = formUser.name.value !== "" &&
         formUser.email.value !== "" &&
         formUser.password.value !== "" &&
-        formUser.confirmPassword.value !== "";
+        formUser.confirmPassword.value !== "" && 
+        !loading;
 
     const handleSubmit = async e => {
         try {
@@ -120,7 +121,7 @@ const SignIn = (props) => {
                 />
                 <LextaticoButton onClick={handleSubmit} disabled={!isOk} type="submit">{!loading
                     ? "Cadastrar"
-                    : <CircularProgress color={"primary"} />}
+                    : <CircularProgress size={30} color={"white"} />}
                 </LextaticoButton>
                 <LextaticoHr />
                 <Link component={RouterLink} to="/login">Login</Link>

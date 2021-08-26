@@ -47,7 +47,7 @@ const FormUser = ({ formUser, setFormUser, handleSubmit, isOk, loading, forgotHa
             />
             <LextaticoButton onClick={handleSubmit} disabled={!isOk} type="submit">{!loading
                 ? "Entrar"
-                : <CircularProgress color={"white"} />}
+                : <CircularProgress size={30} color={"white"} />}
             </LextaticoButton>
             <LextaticoHr />
             <Grid direction="row" container>
@@ -114,7 +114,7 @@ const Login = (props) => {
         }
     });
 
-    const isOk = formUser.email.value !== "" && formUser.password.value !== "";
+    const isOk = formUser.email.value !== "" && formUser.password.value !== "" && !loading;
 
     const handleSubmit = async e => {
         try {
