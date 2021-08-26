@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { withRouter, Switch, useRouteMatch, Route, NavLink } from "react-router-dom"
-import { Button, styled } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { MyContext } from "../../App";
 import Layout from "../../common/components/Layout"
 import NotFound from "../NotFound";
@@ -22,13 +22,6 @@ const LextaticoApp = () => {
         }
     ];
 
-    const But2 = styled(Button)({
-        margin: "0px 10px 10px 0px", color: "#000", padding: "10px", borderRadius: "5px", textDecoration: "none", backgroundColor: "#ee3"
-        , "&:hover": {
-            backgroundColor: "#f41 !important"
-        }
-    })
-
     const handleLogout = () => {
         AccountService.logout(setUser);
 
@@ -44,7 +37,7 @@ const LextaticoApp = () => {
                     <Button exact activeStyle={{ backgroundColor: "#4f5" }} key={index} component={NavLink} to={link.Route}>{link.Nome}</Button>
                 ))}
 
-                <But2 onClick={handleLogout}>Logout</But2>
+                <Button onClick={handleLogout}>Logout</Button>
             </div>
 
             <Switch>

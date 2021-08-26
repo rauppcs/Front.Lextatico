@@ -1,13 +1,14 @@
 import React, { useContext, useState } from "react"
 import SwipeableViews from "react-swipeable-views"
 import { Link as RouterLink, withRouter } from "react-router-dom"
-import { Grid, Link } from "@material-ui/core";
+import { Grid, Link } from "@material-ui/core"
 import { LextaticoBoxError } from "../../styles/common"
 import { LextaticoTextField, LextaticoBox, LextaticoForm, LextaticoFormContentCenter, LextaticoFormContentLeft, LextaticoButton, LextaticoBackButton, LextaticoHr, LextaticoImg } from "./styles"
 import Logo from "../../assets/Logo.png"
 import AccountService from "../../services/accountService"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSpinner, faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons'
+import ArrowBackIcon from '@material-ui/icons/ArrowBack'
+import CircularProgress from '@material-ui/core/CircularProgress'
+
 import { MyContext } from "../../App";
 
 const FormUser = ({ formUser, setFormUser, handleSubmit, isOk, loading, forgotHandleClick }) => {
@@ -46,7 +47,7 @@ const FormUser = ({ formUser, setFormUser, handleSubmit, isOk, loading, forgotHa
             />
             <LextaticoButton onClick={handleSubmit} disabled={!isOk} type="submit">{!loading
                 ? "Entrar"
-                : <FontAwesomeIcon color="#fff" size="2x" icon={faSpinner} spin />}
+                : <CircularProgress color={"white"} />}
             </LextaticoButton>
             <LextaticoHr />
             <Grid direction="row" container>
@@ -67,7 +68,7 @@ const FormUser = ({ formUser, setFormUser, handleSubmit, isOk, loading, forgotHa
 const ForgotPassword = ({ forgotBackHandleClick }) => {
     return (
         <LextaticoFormContentLeft>
-            <LextaticoBackButton onClick={forgotBackHandleClick}><FontAwesomeIcon color="#fff" size="2x" icon={faArrowCircleLeft} /></LextaticoBackButton>
+            <LextaticoBackButton onClick={forgotBackHandleClick}><ArrowBackIcon /></LextaticoBackButton>
         </LextaticoFormContentLeft>
     )
 }

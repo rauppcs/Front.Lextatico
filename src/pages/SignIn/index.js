@@ -5,9 +5,8 @@ import { LextaticoBoxError } from "../../styles/common"
 import { LextaticoTextField, LextaticoBox, LextaticoForm, LextaticoButton, LextaticoHr, LextaticoImg } from "./styles"
 import Logo from "../../assets/Logo.png"
 import AccountService from "../../services/accountService"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSpinner } from '@fortawesome/free-solid-svg-icons'
-import { MyContext } from "../../App";
+import { MyContext } from "../../App"
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 const SignIn = (props) => {
     const { setSnackBar } = useContext(MyContext);
@@ -121,7 +120,7 @@ const SignIn = (props) => {
                 />
                 <LextaticoButton onClick={handleSubmit} disabled={!isOk} type="submit">{!loading
                     ? "Cadastrar"
-                    : <FontAwesomeIcon color="#fff" size="2x" icon={faSpinner} spin />}
+                    : <CircularProgress color={"primary"} />}
                 </LextaticoButton>
                 <LextaticoHr />
                 <Link component={RouterLink} to="/login">Login</Link>
