@@ -97,7 +97,7 @@ const SwipeableForm = ({ ...props }) => {
 }
 
 const Login = (props) => {
-    const { setSnackBar } = useContext(MyContext);
+    const { setSnackBar, setUser } = useContext(MyContext);
 
     const [loading, setLoading] = useState(false);
 
@@ -127,7 +127,7 @@ const Login = (props) => {
                 password: formUser.password.value
             };
 
-            const { data } = await AccountService.postLogin(user);
+            const { data } = await AccountService.login(user, setUser);
 
             if (data.errors.length === 0) {
                 props.history.push("/app");

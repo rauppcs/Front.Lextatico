@@ -24,8 +24,6 @@ api.interceptors.request.use(async config => {
 });
 
 api.interceptors.response.use(resp => resp, async (error) => {
-	const { status } = error.response;
-
 	if (!error.response) {
 		error.response = {
 			status: 999,
@@ -34,12 +32,14 @@ api.interceptors.response.use(resp => resp, async (error) => {
 		return Promise.reject(error);
 	}
 
+	const { status } = error.response;
+
 	if (status === 401 && error.config && !error.config.__isRetryRequest) {
 		error.config.__isRetryRequest = true;
 
 		const { refreshToken } = getToken();
 
-		await AccountService.postRefreshToken(refreshToken);
+		await AccountService.refreshToken(refreshToken);
 
 		return api.request(error.config);
 	}

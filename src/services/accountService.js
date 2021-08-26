@@ -1,27 +1,15 @@
 import { getQueryFor, postQueryFor, httpStatusCodeValid } from "./api";
-import { login } from "./authService";
+import { login, logout } from "./authService";
 
-const result = (data) => {
-    if (data)
-        return data;
-    else
-        data = {
-            result: null,
-            errors: [{
-                property: "NETWORK_ERROR",
-                message: "Erro de conexão."
-            }]
-        }
-}
 
 const AccountService = {
-    async getValidateToken() {
+    async validateToken() {
         const response = await getQueryFor("/api/account/validate-token");
 
         return { response, data: httpStatusCodeValid(response.status) };
     },
 
-    async postRefreshToken(refreshToken) {
+    async refreshToken(refreshToken) {
         const response = await postQueryFor("/api/account/refresh-token", {
             refreshToken
         });
@@ -30,23 +18,37 @@ const AccountService = {
             login(response.data.result);
         }
 
-        return { response, data: result(response.data) };
+        return { response, data: response.data };
     },
 
-    async postLogin(user) {
-        const response = await postQueryFor("/api/account/login", user);
+    async getUser() {
+        const response = await getQueryFor("/api/account/get-user");
 
-        if (httpStatusCodeValid(response.status) && response.data.errors.length === 0) {
-            login(response.data.result);
+        return { response, data: response.data };
+    },
+
+    async login(formUser, setUser) {
+        const { status, data, ...response } = await postQueryFor("/api/account/login", formUser);
+
+        if (httpStatusCodeValid(status)) {
+            login(data.result);
+
+            setUser(data.result.user);
         }
 
-        return { response, data: result(response.data) };
+        return { response, data };
     },
 
-    async postSignIn(user) {
+    async logout(setUser) {
+        logout();
+
+        setUser({});
+    },
+
+    async signIn(user) {
         const response = await postQueryFor("/api/account/signin", user);
 
-        return { response, data: result(response.data) };
+        return { response, data: response.data };
     }
 }
 

@@ -7,7 +7,7 @@ import { MyContext } from "./App"
 import { useContext } from "react"
 import { Home } from "./pages/Home"
 import LextaticoApp from "./pages/LextaticoApp"
-import Loading from "./components/Loading"
+import Loading from "./common/components/Loading"
 import NotFound from "./pages/NotFound"
 
 const PublicRoute = ({ component: Component, ...rest }) => {

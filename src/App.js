@@ -2,10 +2,13 @@ import Routes from "./routes"
 import { Fragment, useState, createContext } from "react";
 import Snackbar from '@material-ui/core/Snackbar';
 import { Alert } from "@material-ui/lab";
+import { getUser } from "./services/authService";
 
 export const MyContext = createContext();
 
 const App = () => {
+	const [user, setUser] = useState(getUser());
+
 	const [authenticated, setAuthenticated] = useState(false);
 
 	const [snackBar, setSnackBar] = useState({
@@ -24,7 +27,7 @@ const App = () => {
 
 	return (
 		<Fragment>
-			<MyContext.Provider value={{ setSnackBar, authenticated, setAuthenticated }}>
+			<MyContext.Provider value={{ setSnackBar, authenticated, setAuthenticated, user, setUser }}>
 				<Routes></Routes>
 				<Snackbar anchorOrigin={{ vertical: "top", horizontal: "right" }} open={snackBar.open} autoHideDuration={6000} onClose={handleClose}>
 					<Alert variant="filled" onClose={handleClose} severity={snackBar.severity}>

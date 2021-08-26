@@ -53,7 +53,7 @@ const SignIn = (props) => {
                 confirmPassword: formUser.confirmPassword.value
             };
 
-            const { data } = await AccountService.postSignIn(user);
+            const { data } = await AccountService.signIn(user);
 
             if (data.errors.length === 0) {
                 setSnackBar((prev) => ({ ...prev, open: true, severity: "success", message: "Cadastro realizado com sucesso." }));
