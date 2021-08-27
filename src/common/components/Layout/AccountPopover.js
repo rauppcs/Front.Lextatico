@@ -7,7 +7,7 @@ import Home from "@material-ui/icons/Home"
 // components
 import MenuPopover from '../../components/MenuPopover';
 import { MyContext } from '../../../App';
-import UserImage from "../../../assets/UserImage.jpg"
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
@@ -47,6 +47,7 @@ export default function AccountPopover({ handleLogout }) {
         <>
             <IconButton
                 ref={anchorRef}
+                icon={AccountCircleIcon}
                 onClick={handleOpen}
                 sx={{
                     padding: 0,
@@ -63,9 +64,8 @@ export default function AccountPopover({ handleLogout }) {
                             bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72)
                         }
                     })
-                }}
-            >
-                <Avatar src={UserImage} alt="photoURL" />
+                }}>
+                <AccountCircleIcon />
             </IconButton>
 
             <MenuPopover

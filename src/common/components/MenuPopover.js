@@ -7,7 +7,7 @@ const ArrowStyle = styled('span')(({ theme }) => ({
     top: -7,
     zIndex: 1,
     width: 12,
-    right: 26,
+    right: 18,
     height: 12,
     content: "''",
     position: 'absolute',

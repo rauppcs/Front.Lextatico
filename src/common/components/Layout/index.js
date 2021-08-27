@@ -92,9 +92,7 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
     drawerPaper: {
-        overflow: "hidden",
-        overflowY: "scroll",
-        position: 'absolute',
+        overflowY: "auto",
         whiteSpace: 'nowrap',
         width: theme.spacing(30),
         transition: theme.transitions.create('width', {
