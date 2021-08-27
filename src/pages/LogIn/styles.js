@@ -13,11 +13,11 @@ export const LextaticoBox = styled(Box)({
     height: "100vh"
 });
 
-export const LextaticoForm = styled(Form)({
+export const LextaticoForm = styled(Form)(({ theme }) => ({
     borderRadius: "5px",
     width: "400px",
-    backgroundColor: "#424242",
-});
+    backgroundColor: theme.palette.background.paper,
+}));
 
 export const LextaticoFormContentLeft = styled(Form)({
     display: "flex",

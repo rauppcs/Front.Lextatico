@@ -131,7 +131,7 @@ const Login = (props) => {
             const { data } = await AccountService.login(user, setUser);
 
             if (data.errors.length === 0) {
-                props.history.push("/app");
+                props.history.push("/");
             }
             else {
                 data.errors.forEach(({ property, message }) => {

@@ -5,10 +5,10 @@ import Login from "./pages/LogIn"
 import SignIn from "./pages/SignIn"
 import { MyContext } from "./App"
 import { useContext } from "react"
-import { Home } from "./pages/Home"
 import LextaticoApp from "./pages/LextaticoApp"
 import Loading from "./common/components/Loading"
 import NotFound from "./pages/NotFound"
+import Layout from "./common/components/Layout"
 
 const PublicRoute = ({ component: Component, ...rest }) => {
 	return (
@@ -57,7 +57,7 @@ const Routes = () => {
 				<PublicRoute path="/login" component={Login} />
 				<PublicRoute path="/SignIn" component={SignIn} />
 				<PublicRoute path="/404" component={NotFound} />
-				<Redirect exact from="/" to="/analisadores	" />
+				<Redirect exact from="/" to="/analisadores" />
 				<Redirect from="*" to="/404" />
 			</Switch>
 		</BrowserRouter>

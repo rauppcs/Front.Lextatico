@@ -13,16 +13,16 @@ export const LextaticoBox = styled(Box)({
     height: "100vh"
 });
 
-export const LextaticoForm = styled(Form)({
+export const LextaticoForm = styled(Form)(({ theme }) => ({
     display: "flex",
     justifyContent: "center",
-    backgroundColor: "#424242",
+    backgroundColor: theme.palette.background.paper,
     borderRadius: "5px",
     width: "400px",
     padding: "20px",
     flexDirection: "column",
     alignItems: "center"
-});
+}));
 
 export const LextaticoTextField = styled(TextField)({
     width: "100%",
