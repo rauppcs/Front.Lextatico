@@ -53,11 +53,12 @@ const Routes = () => {
 	return (
 		<BrowserRouter>
 			<Switch>
-				<PublicRoute exact path="/" component={Home} />
+				<PrivateRoute path="/analisadores" component={LextaticoApp} />
 				<PublicRoute path="/login" component={Login} />
 				<PublicRoute path="/SignIn" component={SignIn} />
-				<PrivateRoute path="/app" component={LextaticoApp} />
-				<PublicRoute path="*" component={NotFound} />
+				<PublicRoute path="/404" component={NotFound} />
+				<Redirect exact from="/" to="/analisadores	" />
+				<Redirect from="*" to="/404" />
 			</Switch>
 		</BrowserRouter>
 	);
