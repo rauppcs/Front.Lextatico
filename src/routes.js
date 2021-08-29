@@ -8,7 +8,6 @@ import { useContext } from "react"
 import LextaticoApp from "./pages/LextaticoApp"
 import Loading from "./common/components/Loading"
 import NotFound from "./pages/NotFound"
-import Layout from "./common/components/Layout"
 
 const PublicRoute = ({ component: Component, ...rest }) => {
 	return (

@@ -207,7 +207,7 @@ export default function Layout({ children }) {
                         <MenuIcon />
                     </IconButton>
                     <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                        {mainList.find((val) => val.route == route.path).name }
+                        {mainList.find((val) => val.route === route.path).name }
                     </Typography>
                     <AccountPopover handleLogout={handleLogout} />
                 </Toolbar>

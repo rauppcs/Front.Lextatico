@@ -4,6 +4,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import { Alert } from "@material-ui/lab";
 import { getUser } from "./services/authService";
 
+
 export const MyContext = createContext();
 
 const App = () => {

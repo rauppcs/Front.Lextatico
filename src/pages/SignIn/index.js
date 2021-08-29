@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { Fragment, useContext, useState } from "react"
 import { Link as RouterLink, withRouter } from "react-router-dom"
 import { Link } from "@material-ui/core";
 import { LextaticoBoxError } from "../../styles/common"
@@ -7,6 +7,7 @@ import Logo from "../../assets/Logo.png"
 import AccountService from "../../services/accountService"
 import { MyContext } from "../../App"
 import CircularProgress from '@material-ui/core/CircularProgress'
+import Helmet from "react-helmet"
 
 const SignIn = (props) => {
     const { setSnackBar } = useContext(MyContext);
@@ -36,7 +37,7 @@ const SignIn = (props) => {
     const isOk = formUser.name.value !== "" &&
         formUser.email.value !== "" &&
         formUser.password.value !== "" &&
-        formUser.confirmPassword.value !== "" && 
+        formUser.confirmPassword.value !== "" &&
         !loading;
 
     const handleSubmit = async e => {
@@ -78,55 +79,59 @@ const SignIn = (props) => {
     };
 
     return (
-        <LextaticoBox>
-            <LextaticoForm>
-                <LextaticoImg src={Logo} alt="Lextatico logo" />
-                {formUser.errors.length > 0 && <LextaticoBoxError>{formUser.errors.map(error => <span>* {error}</span>)}</LextaticoBoxError>}
-                <LextaticoTextField
-                    type="text"
-                    label="Nome"
-                    variant="outlined"
-                    value={formUser.name.value}
-                    error={formUser.name.error !== ""}
-                    helperText={formUser.name.error}
-                    onChange={e => setFormUser((prev) => ({ ...prev, name: { value: e.target.value, error: "" } }))}
-                />
-                <LextaticoTextField
-                    type="email"
-                    label="Endereço de e-mail"
-                    variant="outlined"
-                    value={formUser.email.value}
-                    error={formUser.email.error !== ""}
-                    helperText={formUser.email.error}
-                    onChange={e => setFormUser((prev) => ({ ...prev, email: { value: e.target.value, error: "" } }))}
-                />
-                <LextaticoTextField
-                    type="password"
-                    label="Senha"
-                    variant="outlined"
-                    value={formUser.password.value}
-                    error={formUser.password.error !== ""}
-                    helperText={formUser.password.error}
-                    onChange={e => setFormUser((prev) => ({ ...prev, password: { value: e.target.value, error: "" } }))}
-                />
-                <LextaticoTextField
-                    type="password"
-                    label="Confirmação de senha"
-                    variant="outlined"
-                    value={formUser.confirmPassword.value}
-                    error={formUser.confirmPassword.error !== ""}
-                    helperText={formUser.confirmPassword.error}
-                    onKeyDown={e => e.key === "Enter" && isOk ? handleSubmit(e) : null}
-                    onChange={e => setFormUser((prev) => ({ ...prev, confirmPassword: { value: e.target.value, error: "" } }))}
-                />
-                <LextaticoButton onClick={handleSubmit} disabled={!isOk} type="submit">{!loading
-                    ? "Cadastrar"
-                    : <CircularProgress size={30} color={"white"} />}
-                </LextaticoButton>
-                <LextaticoHr />
-                <Link component={RouterLink} to="/login">Login</Link>
-            </LextaticoForm>
-        </LextaticoBox>
+        <Fragment>
+            <Helmet title={`${process.env.REACT_APP_TITLE} | SignIn`} />
+            <LextaticoBox>
+                <LextaticoForm>
+                    <LextaticoImg src={Logo} alt="Lextatico logo" />
+                    {formUser.errors.length > 0 && <LextaticoBoxError>{formUser.errors.map(error => <span>* {error}</span>)}</LextaticoBoxError>}
+                    <LextaticoTextField
+                        type="text"
+                        label="Nome"
+                        variant="outlined"
+                        value={formUser.name.value}
+                        error={formUser.name.error !== ""}
+                        helperText={formUser.name.error}
+                        onChange={e => setFormUser((prev) => ({ ...prev, name: { value: e.target.value, error: "" } }))}
+                    />
+                    <LextaticoTextField
+                        type="email"
+                        label="Endereço de e-mail"
+                        variant="outlined"
+                        value={formUser.email.value}
+                        error={formUser.email.error !== ""}
+                        helperText={formUser.email.error}
+                        onChange={e => setFormUser((prev) => ({ ...prev, email: { value: e.target.value, error: "" } }))}
+                    />
+                    <LextaticoTextField
+                        type="password"
+                        label="Senha"
+                        variant="outlined"
+                        value={formUser.password.value}
+                        error={formUser.password.error !== ""}
+                        helperText={formUser.password.error}
+                        onChange={e => setFormUser((prev) => ({ ...prev, password: { value: e.target.value, error: "" } }))}
+                    />
+                    <LextaticoTextField
+                        type="password"
+                        label="Confirmação de senha"
+                        variant="outlined"
+                        value={formUser.confirmPassword.value}
+                        error={formUser.confirmPassword.error !== ""}
+                        helperText={formUser.confirmPassword.error}
+                        onKeyDown={e => e.key === "Enter" && isOk ? handleSubmit(e) : null}
+                        onChange={e => setFormUser((prev) => ({ ...prev, confirmPassword: { value: e.target.value, error: "" } }))}
+                    />
+                    <LextaticoButton onClick={handleSubmit} disabled={!isOk} type="submit">{!loading
+                        ? "Cadastrar"
+                        : <CircularProgress size={30} color={"white"} />}
+                    </LextaticoButton>
+                    <LextaticoHr />
+                    <Link component={RouterLink} to="/login">Login</Link>
+                </LextaticoForm>
+            </LextaticoBox>
+        </Fragment>
+
     );
 }
 
