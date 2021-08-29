@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/d2f4425e-7943-46ce-b159-57f9d4120257/resourceGroups/Lextatico/providers/Microsoft.Web/sites/Lextatico-Front",
+    "appService.deploySubpath": "build"
+}
