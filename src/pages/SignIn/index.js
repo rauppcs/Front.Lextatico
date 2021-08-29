@@ -72,7 +72,7 @@ const SignIn = (props) => {
                 setFormUser((prev) => ({ ...prev, formUser }));
             }
         } catch (error) {
-            setSnackBar((prev) => ({ ...prev, open: true, severity: "error", message: "Erro de conexão." }));
+            setSnackBar((prev) => ({ ...prev, open: true, severity: "error", message: error.response.data.errors.map(({ message }) => `${message}\n`) }));
         } finally {
             setLoading(false);
         }
