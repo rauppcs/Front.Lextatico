@@ -7,7 +7,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import { ListItem } from '@material-ui/core';
 import { NavLink, useRouteMatch } from 'react-router-dom';
 import ListItemText from '@material-ui/core/ListItemText';
-import Spellcheck from '@material-ui/icons/Spellcheck';
 import Box from '@material-ui/core/Box';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -22,6 +21,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import AccountPopover from './AccountPopover';
 import { MyContext } from '../../../App';
 import AccountService from '../../../services/accountService';
+import { mainList } from "./mainList"
 
 function Copyright() {
     return (
@@ -155,14 +155,6 @@ const useStyleItemLink = makeStyles((theme) => ({
         textTransform: "uppercase"
     }
 }));
-
-const mainList = [
-    {
-        name: "Analisadores",
-        icon: Spellcheck,
-        route: "/analisadores"
-    }
-];
 
 
 function ListItemLink(props) {

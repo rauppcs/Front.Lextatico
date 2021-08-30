@@ -5,12 +5,10 @@ import reportWebVitals from './reportWebVitals'
 import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { globalTheme } from "./styles/theme"
-import Helmet from "react-helmet"
 
 ReactDOM.render(
 	<React.StrictMode>
 		<ThemeProvider theme={globalTheme}>
-			<Helmet title={process.env.REACT_APP_TITLE} />
 			<CssBaseline />
 			<App />
 		</ThemeProvider>

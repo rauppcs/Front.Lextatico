@@ -1,7 +1,13 @@
+import { useContext } from "react";
 import { withRouter, Switch, useRouteMatch, Route, Redirect } from "react-router-dom"
+import { MyContext } from "../../App";
 import Layout from "../../common/components/Layout"
 
 const LextaticoApp = () => {
+    const { setTitleName } = useContext(MyContext);
+
+    setTitleName("Analisadores");
+
     const { path } = useRouteMatch();
 
     return (

@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState } from "react"
+import React, { useContext, useState } from "react"
 import SwipeableViews from "react-swipeable-views"
 import { Link as RouterLink, withRouter } from "react-router-dom"
 import { Grid, Link } from "@material-ui/core"
@@ -8,7 +8,6 @@ import Logo from "../../assets/Logo.png"
 import AccountService from "../../services/accountService"
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import Helmet from "react-helmet"
 
 import { MyContext } from "../../App";
 
@@ -99,7 +98,9 @@ const SwipeableForm = ({ ...props }) => {
 }
 
 const Login = (props) => {
-    const { setSnackBar, setUser } = useContext(MyContext);
+    const { setSnackBar, setUser, setTitleName } = useContext(MyContext);
+
+    setTitleName("Login");
 
     const [loading, setLoading] = useState(false);
 
@@ -153,11 +154,7 @@ const Login = (props) => {
     };
 
     return (
-        <Fragment>
-            <Helmet title={`${process.env.REACT_APP_TITLE} | Login`} />
-            <SwipeableForm formUser={formUser} setFormUser={setFormUser} handleSubmit={handleSubmit} isOk={isOk} loading={loading} />
-        </Fragment>
-
+        <SwipeableForm formUser={formUser} setFormUser={setFormUser} handleSubmit={handleSubmit} isOk={isOk} loading={loading} />
     );
 }
 
