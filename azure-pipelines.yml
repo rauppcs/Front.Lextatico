@@ -36,9 +36,10 @@ steps:
     TargetFolder: '$(Build.BinariesDirectory)'
 
 - task: CopyFiles@2
-  displayName: Copying compiled files
+  displayName: Copying staticwebapp.config.json
   inputs:
-    SourceFolder: '$(System.DefaultWorkingDirectory)/staticwebapp.config.json'
+    SourceFolder: '$(System.DefaultWorkingDirectory)'
+    Contents: 'staticwebapp.config.json'
     TargetFolder: '$(Build.BinariesDirectory)'
 
 - task: ArchiveFiles@2
