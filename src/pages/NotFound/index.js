@@ -37,7 +37,7 @@ const NotFound = ({ theme }) => {
                                 <Box
                                     component="img"
                                     src={Img404}
-                                    sx={{ height: 260, mx: 'auto', my: { xs: 5, sm: 10 } }}
+                                    sx={{ height: 260, mx: 'auto', my: 'auto' }}
                                 />
                             </motion.div>
 
