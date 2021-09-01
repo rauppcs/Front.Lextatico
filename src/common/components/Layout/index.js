@@ -40,9 +40,6 @@ const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
     },
-    toolbar: {
-        paddingRight: 24, // keep right padding when drawer closed
-    },
     toolbarIcon: {
         display: 'flex',
         alignItems: 'center',
@@ -188,7 +185,7 @@ export default function Layout({ children }) {
         <div className={classes.root}>
             <CssBaseline />
             <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
-                <Toolbar className={classes.toolbar}>
+                <Toolbar>
                     <IconButton
                         edge="start"
                         color="inherit"
