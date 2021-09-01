@@ -30,12 +30,6 @@ steps:
 - script: yarn build
   displayName: yarn build application
 
-# - task: CopyFiles@2
-#   displayName: Copying compiled files
-#   inputs:
-#     SourceFolder: '$(System.DefaultWorkingDirectory)/build'
-#     TargetFolder: '$(Build.BinariesDirectory)'
-
 - task: CopyFiles@2
   displayName: Copying staticwebapp.config.json
   inputs:
