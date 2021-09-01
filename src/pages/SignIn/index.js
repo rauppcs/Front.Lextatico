@@ -85,15 +85,6 @@ const SignIn = (props) => {
                 <LextaticoImg src={Logo} alt="Lextatico logo" />
                 {formUser.errors.length > 0 && <LextaticoBoxError>{formUser.errors.map(error => <span>* {error}</span>)}</LextaticoBoxError>}
                 <LextaticoTextField
-                    type="email"
-                    label="Endereço de e-mail"
-                    variant="outlined"
-                    value={formUser.email.value}
-                    error={formUser.email.error !== ""}
-                    helperText={formUser.email.error}
-                    onChange={e => setFormUser((prev) => ({ ...prev, email: { value: e.target.value, error: "" } }))}
-                />
-                <LextaticoTextField
                     type="text"
                     label="Nome"
                     variant="outlined"
@@ -101,6 +92,15 @@ const SignIn = (props) => {
                     error={formUser.name.error !== ""}
                     helperText={formUser.name.error}
                     onChange={e => setFormUser((prev) => ({ ...prev, name: { value: e.target.value, error: "" } }))}
+                />
+                <LextaticoTextField
+                    type="email"
+                    label="Endereço de e-mail"
+                    variant="outlined"
+                    value={formUser.email.value}
+                    error={formUser.email.error !== ""}
+                    helperText={formUser.email.error}
+                    onChange={e => setFormUser((prev) => ({ ...prev, email: { value: e.target.value, error: "" } }))}
                 />
                 <LextaticoTextField
                     type="password"
