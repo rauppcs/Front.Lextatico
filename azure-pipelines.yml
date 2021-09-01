@@ -30,22 +30,22 @@ steps:
 - script: yarn build
   displayName: yarn build application
 
-- task: CopyFiles@2
-  displayName: Copying compiled files
-  inputs:
-    SourceFolder: '$(System.DefaultWorkingDirectory)/build'
-    TargetFolder: '$(Build.BinariesDirectory)'
+# - task: CopyFiles@2
+#   displayName: Copying compiled files
+#   inputs:
+#     SourceFolder: '$(System.DefaultWorkingDirectory)/build'
+#     TargetFolder: '$(Build.BinariesDirectory)'
 
 - task: CopyFiles@2
   displayName: Copying staticwebapp.config.json
   inputs:
     SourceFolder: '$(System.DefaultWorkingDirectory)'
     Contents: 'staticwebapp.config.json'
-    TargetFolder: '$(Build.BinariesDirectory)'
+    TargetFolder: '$(System.DefaultWorkingDirectory)/build'
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Build.BinariesDirectory)'
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)/build'
     includeRootFolder: false
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
