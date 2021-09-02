@@ -44,6 +44,7 @@ export const LextaticoButton = styled(Button)(({ theme }) => ({
     width: "100%",
     background: theme.palette.primary.main,
     color: theme.palette.text.light,
+    marginBottom: theme.spacing(2),
     height: 48,
     "&:hover": {
         backgroundColor: theme.palette.primary.light,
@@ -69,7 +70,7 @@ export const LextaticoLinks = styled("div")(({ theme }) => ({
 }));
 
 export const LextaticoHr = styled("hr")(({ theme }) => ({
-    margin: "20px",
+    marginBottom: theme.spacing(2),
     border: "none",
     borderBottom: `1px solid ${theme.palette.divider}`,
     width: "100%"
