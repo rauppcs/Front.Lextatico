@@ -8,6 +8,10 @@ import AccountService from "../../services/accountService"
 import { MyContext } from "../../App"
 import CircularProgress from '@material-ui/core/CircularProgress'
 
+const LextaticoLink = (props) => {
+    return <Link {...props} component={RouterLink}>{props.children}</Link>
+}
+
 const SignIn = (props) => {
     const { setSnackBar, setTitleName } = useContext(MyContext);
 
@@ -127,7 +131,7 @@ const SignIn = (props) => {
                     : <CircularProgress size={30} color={"white"} />}
                 </LextaticoButton>
                 <LextaticoHr />
-                <Link component={RouterLink} to="/login">Login</Link>
+                <Typography component={LextaticoLink} to="/login">Login</Typography>
             </LextaticoForm>
         </LextaticoBox>
     );

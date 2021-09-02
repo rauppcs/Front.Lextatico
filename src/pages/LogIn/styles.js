@@ -53,7 +53,6 @@ export const LextaticoButton = styled(Button)(({ theme }) => ({
 
 export const LextaticoBackButton = styled(Button)(({ theme }) => ({
     cursor: "pointer",
-    borderRadius: "100%",
     height: "60px"
 
 }));
