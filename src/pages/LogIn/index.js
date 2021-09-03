@@ -90,6 +90,7 @@ const ForgotPassword = ({ loading, forgotHandleClick, forgotBackHandleClick, for
                 ? "Recuperar"
                 : <CircularProgress size={30} color={"white"} />}
             </LextaticoButton>
+            <LextaticoHr />
             <Typography style={{ width: "100%", display: "flex", justifyContent: "center" }} className={styles.link} component={Link} onClick={forgotBackHandleClick}>Voltar para login</Typography>
         </LextaticoFormContentLeft>
     )
