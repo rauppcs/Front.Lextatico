@@ -76,7 +76,7 @@ const ForgotPassword = ({ loading, forgotHandleClick, forgotBackHandleClick, for
 
     return (
         <LextaticoFormContentLeft>
-            <Typography style={{ width: "100%" }} variant="h5" paragraph component="h1">Recuperar a senha.</Typography>
+            <Typography style={{ width: "100%" }} variant="h5" paragraph component="h1">Recupere a senha.</Typography>
             <LextaticoTextField
                 type="email"
                 label="Endereço de e-mail"
