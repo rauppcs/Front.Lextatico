@@ -5,7 +5,7 @@ import { Box, Button, Typography, Container, withStyles } from "@material-ui/cor
 import { MotionContainer, varBounceIn } from "../../common/components/animate"
 import Img404 from "../../assets/illustration_404.svg"
 import { Fragment } from "react"
-import Helmet from "react-helmet"
+import { Helmet } from "react-helmet"
 
 // ----------------------------------------------------------------------
 

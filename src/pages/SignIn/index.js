@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { Link as RouterLink, withRouter } from "react-router-dom"
 import { Link, Typography } from "@material-ui/core";
 import { LextaticoBoxError } from "../../styles/common"
@@ -15,7 +15,9 @@ const LextaticoLink = (props) => {
 const SignIn = (props) => {
     const { setSnackBar, setTitleName } = useContext(MyContext);
 
-    setTitleName("SignIn");
+    useEffect(() => {
+        setTitleName("SignIn");
+    }, [setTitleName]);
 
     const [loading, setLoading] = useState(false);
 
@@ -59,14 +61,16 @@ const SignIn = (props) => {
                 confirmPassword: formUser.confirmPassword.value
             };
 
-            const { data } = await AccountService.signIn(user);
+            await AccountService.signIn(user);
 
-            if (data.errors.length === 0) {
-                setSnackBar((prev) => ({ ...prev, open: true, severity: "success", message: "Cadastro realizado com sucesso." }));
-                props.history.push("/login");
-            }
+            setSnackBar((prev) => ({ ...prev, open: true, severity: "success", message: "Cadastro realizado com sucesso." }));
+            props.history.push("/login");
+
+        } catch (error) {
+            if (error.response.status >= 500)
+                setSnackBar((prev) => ({ ...prev, open: true, severity: "error", message: error.response.data.errors.map(({ message }) => `${message}\n`) }));
             else {
-                data.errors.forEach(({ property, message }) => {
+                error.response.data.errors.forEach(({ property, message }) => {
                     if (property !== "")
                         formUser[property].error = message;
                     else {
@@ -76,8 +80,6 @@ const SignIn = (props) => {
 
                 setFormUser((prev) => ({ ...prev, formUser }));
             }
-        } catch (error) {
-            setSnackBar((prev) => ({ ...prev, open: true, severity: "error", message: error.response.data.errors.map(({ message }) => `${message}\n`) }));
         } finally {
             setLoading(false);
         }
@@ -87,7 +89,7 @@ const SignIn = (props) => {
         <LextaticoBox>
             <LextaticoForm>
                 <LextaticoImg src={Logo} alt="Lextatico logo" />
-                <Typography style={{width: "100%"}} variant="h5" paragraph component="h1">Crie uma conta.</Typography>
+                <Typography style={{ width: "100%" }} variant="h5" paragraph component="h1">Crie uma conta.</Typography>
                 {formUser.errors.length > 0 && <LextaticoBoxError>{formUser.errors.map(error => <span>* {error}</span>)}</LextaticoBoxError>}
                 <LextaticoTextField
                     type="text"

@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
         ...theme.mixins.toolbar,
         "& button": {
             [theme.breakpoints.up("sm")]: {
-                display: "none"
+                // display: "none"
             }
         }
     },
@@ -59,14 +59,14 @@ const useStyles = makeStyles((theme) => ({
             duration: theme.transitions.duration.leavingScreen,
         }),
         [theme.breakpoints.up("sm")]: {
-            width: `calc(100% - ${theme.spacing(30)}px)`,
+            width: `calc(100% - ${theme.spacing(7)}px)`,
         },
         [theme.breakpoints.down("sm")]: {
             width: `calc(100%)`,
         }
     },
     appBarShift: {
-        marginLeft: theme.spacing(30),
+        marginLeft: theme.spacing(7),
         width: `calc(100% - ${theme.spacing(30)}px)`,
         transition: theme.transitions.create(['width', 'margin'], {
             easing: theme.transitions.easing.sharp,
@@ -74,9 +74,9 @@ const useStyles = makeStyles((theme) => ({
         }),
     },
     menuButton: {
-        marginRight: 36,
+        marginRight: theme.spacing(2),
         [theme.breakpoints.up("sm")]: {
-            display: "none"
+            // display: "none"
         },
         [theme.breakpoints.down("sm")]: {
             display: "unset"
@@ -89,6 +89,7 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
     drawerPaper: {
+        position: "relative",
         overflowY: "auto",
         whiteSpace: 'nowrap',
         width: theme.spacing(30),
@@ -105,10 +106,15 @@ const useStyles = makeStyles((theme) => ({
         }),
         width: theme.spacing(7),
         [theme.breakpoints.up("sm")]: {
-            width: theme.spacing(30),
+            width: theme.spacing(7),
         },
         [theme.breakpoints.down("sm")]: {
             width: theme.spacing(0)
+        },
+        "& button": {
+            [theme.breakpoints.up("sm")]: {
+                display: "none"
+            }
         }
     },
     appBarSpacer: theme.mixins.toolbar,
@@ -117,7 +123,7 @@ const useStyles = makeStyles((theme) => ({
         height: '100vh',
         overflow: 'auto',
         [theme.breakpoints.up("sm")]: {
-            marginLeft: theme.spacing(30)
+            marginLeft: theme.spacing(0)
         },
         [theme.breakpoints.down("sm")]: {
             marginLeft: theme.spacing(0)
@@ -132,9 +138,6 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         overflow: 'auto',
         flexDirection: 'column',
-    },
-    fixedHeight: {
-        height: 240,
     },
     boxCopyright: {
         position: "fixed",
@@ -196,7 +199,7 @@ export default function Layout({ children }) {
                         <MenuIcon />
                     </IconButton>
                     <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                        {mainList.find((val) => val.route === route.path).name }
+                        {mainList.find((val) => val.route === route.path).name}
                     </Typography>
                     <AccountPopover handleLogout={handleLogout} />
                 </Toolbar>
@@ -215,7 +218,7 @@ export default function Layout({ children }) {
                 <Divider />
                 <List>{mainList.map((val, index) => {
                     return (
-                        <Fragment key={index}>
+                        <Fragment title={val.name}>
                             <ListItemLink to={val.route}>
                                 <ListItemIcon>
                                     <val.icon />

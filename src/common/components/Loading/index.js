@@ -11,7 +11,6 @@ const Loading = () => {
                 <CircularProgress size={100} />
             </LextaticoLoadingBox>
         </Fragment>
-
     );
 }
 

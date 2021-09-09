@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import SwipeableViews from "react-swipeable-views"
 import { Link as RouterLink, withRouter } from "react-router-dom"
 import { Grid, Link, makeStyles, Typography } from "@material-ui/core"
@@ -77,6 +77,7 @@ const ForgotPassword = ({ loading, forgotHandleClick, forgotBackHandleClick, for
     return (
         <LextaticoFormContentLeft>
             <Typography style={{ width: "100%" }} variant="h5" paragraph component="h1">Recupere a senha.</Typography>
+
             <LextaticoTextField
                 type="email"
                 label="Endereço de e-mail"
@@ -113,18 +114,18 @@ const SwipeableForm = (props) => {
         setActiveStep(0);
     }
 
-    const forgotHandleClick = () => {
+    const forgotHandleClick = async () => {
         try {
             setLoading(true);
-            
-            setTimeout(() => {
-                setSnackBar((prev) => ({ ...prev, open: true, severity: "success", message: "Email enviado." }));
-                setLoading(false);
-                forgotBackHandleClick();
-            }, 3000);
-            
+
+            await AccountService.forgotPassword(props.formUser.email.value);
+
+            setSnackBar((prev) => ({ ...prev, open: true, severity: "success", message: "Email enviado." }));
+            forgotBackHandleClick();
         } catch (error) {
             setSnackBar((prev) => ({ ...prev, open: true, severity: "error", message: error.response.data.errors.map(({ message }) => `${message}\n`) }));
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -144,7 +145,9 @@ const SwipeableForm = (props) => {
 const Login = (props) => {
     const { setSnackBar, setUser, setTitleName } = useContext(MyContext);
 
-    setTitleName("Login");
+    useEffect(() => {
+        setTitleName("Login");
+    }, [setTitleName]);
 
     const [loading, setLoading] = useState(false);
 
@@ -175,13 +178,14 @@ const Login = (props) => {
                 password: formUser.password.value
             };
 
-            const { data } = await AccountService.login(user, setUser);
+            await AccountService.login(user, setUser);
 
-            if (data.errors.length === 0) {
-                props.history.push("/");
-            }
+            props.history.push("/");
+        } catch (error) {
+            if (error.response.status >= 500)
+                setSnackBar((prev) => ({ ...prev, open: true, severity: "error", message: error.response.data.errors.map(({ message }) => `${message}\n`) }));
             else {
-                data.errors.forEach(({ property, message }) => {
+                error.response.data.errors.forEach(({ property, message }) => {
                     if (property !== "")
                         formUser[property].error = message;
                     else {
@@ -191,8 +195,6 @@ const Login = (props) => {
 
                 setFormUser((prev) => ({ ...prev, formUser }));
             }
-        } catch (error) {
-            setSnackBar((prev) => ({ ...prev, open: true, severity: "error", message: error.response.data.errors.map(({ message }) => `${message}\n`) }));
         } finally {
             setLoading(false);
         }

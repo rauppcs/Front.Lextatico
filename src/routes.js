@@ -8,6 +8,7 @@ import { useContext } from "react"
 import LextaticoApp from "./pages/LextaticoApp"
 import Loading from "./common/components/Loading"
 import NotFound from "./pages/NotFound"
+import ResetPassword from "./pages/ResetPassword"
 
 const PublicRoute = ({ component: Component, ...rest }) => {
 	return (
@@ -54,7 +55,8 @@ const Routes = () => {
 			<Switch>
 				<PrivateRoute path="/analisadores" component={LextaticoApp} />
 				<PublicRoute path="/login" component={Login} />
-				<PublicRoute path="/SignIn" component={SignIn} />
+				<PublicRoute path="/signIn" component={SignIn} />
+				<PublicRoute path="/resetPassword" component={ResetPassword} />
 				<PublicRoute path="/404" component={NotFound} />
 				<Redirect exact from="/" to="/analisadores" />
 				<Redirect from="*" to="/404" />

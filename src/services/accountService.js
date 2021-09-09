@@ -3,6 +3,36 @@ import { login, logout } from "./authService";
 
 
 const AccountService = {
+    async getUser() {
+        const response = await getQueryFor("/api/account/get-user");
+
+        return { response, data: response.data };
+    },
+
+    async login(formUser, setUser) {
+        const response = await postQueryFor("/api/account/login", formUser);
+
+        if (httpStatusCodeValid(response.status)) {
+            login(response.data.result);
+
+            setUser(response.data.result.user);
+        }
+
+        return { response, data: response.data };
+    },
+
+    async logout(setUser) {
+        logout();
+
+        setUser({});
+    },
+
+    async signIn(user) {
+        const response = await postQueryFor("/api/account/signin", user);
+
+        return { response, data: response.data };
+    },
+
     async validateToken() {
         const response = await getQueryFor("/api/account/validate-token");
 
@@ -21,32 +51,16 @@ const AccountService = {
         return { response, data: response.data };
     },
 
-    async getUser() {
-        const response = await getQueryFor("/api/account/get-user");
+    async resetPassword(user) {
+        const response = await postQueryFor("/api/account/reset-password", user);
 
         return { response, data: response.data };
     },
 
-    async login(formUser, setUser) {
-        const { status, data, ...response } = await postQueryFor("/api/account/login", formUser);
-
-        if (httpStatusCodeValid(status)) {
-            login(data.result);
-
-            setUser(data.result.user);
-        }
-
-        return { response, data };
-    },
-
-    async logout(setUser) {
-        logout();
-
-        setUser({});
-    },
-
-    async signIn(user) {
-        const response = await postQueryFor("/api/account/signin", user);
+    async forgotPassword(email) {
+        const response = await postQueryFor("/api/account/forgot-password", {
+            email
+        });
 
         return { response, data: response.data };
     }

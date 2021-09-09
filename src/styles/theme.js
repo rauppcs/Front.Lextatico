@@ -11,5 +11,12 @@ export const globalTheme = createTheme({
             light: "#fff"
         },
         type: 'dark'
-    }
+    },
+    // overrides: {
+    //     MuiTooltip: {
+    //         tooltip: {
+    //             fontSize: "20px"
+    //         }
+    //     }
+    // }
 });
