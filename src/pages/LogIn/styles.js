@@ -24,6 +24,7 @@ export const LextaticoFormContentLeft = styled(Form)({
     justifyContent: "center",
     flexDirection: "column",
     alignItems: "flex-start",
+    height: "100%",
     padding: "20px"
 });
 
