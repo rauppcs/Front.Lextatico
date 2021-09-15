@@ -2,7 +2,7 @@ import { getQueryFor, postQueryFor, httpStatusCodeValid } from "./api";
 import { login, logout } from "./authService";
 
 
-const AccountService = {
+const accountService = {
     async getUser() {
         const response = await getQueryFor("/api/account/get-user");
 
@@ -66,4 +66,4 @@ const AccountService = {
     }
 }
 
-export default AccountService;
+export default accountService;

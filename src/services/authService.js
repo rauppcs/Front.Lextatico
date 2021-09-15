@@ -1,4 +1,4 @@
-import AccountService from "./accountService";
+import accountService from "./accountService";
 
 const USER_KEY = "@lextatico-User";
 const TOKEN_KEY = "@lextatico-Token";
@@ -9,7 +9,7 @@ export const isAuthenticated = async () => {
 			return false;
 		}
 
-		const { data: tokenValid } = await AccountService.validateToken();
+		const { data: tokenValid } = await accountService.validateToken();
 
 		return tokenValid;
 	} catch (error) {
