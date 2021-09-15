@@ -1,5 +1,5 @@
 import axios from "axios";
-import AccountService from "../accountService";
+import accountService from "../accountService";
 import { getToken } from "../authService";
 
 const netError = {
@@ -39,7 +39,7 @@ api.interceptors.response.use(resp => resp, async (error) => {
 
 		const { refreshToken } = getToken();
 
-		await AccountService.refreshToken(refreshToken);
+		await accountService.refreshToken(refreshToken);
 
 		return api.request(error.config);
 	}
