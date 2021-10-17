@@ -13,9 +13,9 @@ const accountService = {
         const response = await postQueryFor("/api/account/login", formUser);
 
         if (httpStatusCodeValid(response.status)) {
-            login(response.data.result);
+            login(response.data.data);
 
-            setUser(response.data.result.user);
+            setUser(response.data.data.user);
         }
 
         return { response, data: response.data };
@@ -45,7 +45,7 @@ const accountService = {
         });
 
         if (httpStatusCodeValid(response.status) && response.data.errors.length === 0) {
-            login(response.data.result);
+            login(response.data.data);
         }
 
         return { response, data: response.data };
