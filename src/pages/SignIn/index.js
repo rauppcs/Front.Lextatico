@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState } from "react"
 import { Link as RouterLink, withRouter } from "react-router-dom"
-import { Link, Typography } from "@material-ui/core";
+import { IconButton, InputAdornment, Link, Typography } from "@material-ui/core";
 import { LextaticoBoxError } from "../../styles/common"
 import { LextaticoTextField, LextaticoBox, LextaticoForm, LextaticoButton, LextaticoHr, LextaticoImg } from "./styles"
 import Logo from "../../assets/Logo.png"
 import AccountService from "../../services/accountService"
 import { MyContext } from "../../App"
 import CircularProgress from '@material-ui/core/CircularProgress'
+import { Visibility, VisibilityOff } from "@material-ui/icons";
 
 const LextaticoLink = (props) => {
     return <Link {...props} component={RouterLink}>{props.children}</Link>
@@ -46,6 +47,10 @@ const SignIn = (props) => {
         formUser.password.value !== "" &&
         formUser.confirmPassword.value !== "" &&
         !loading;
+
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleClickShowPassword = () => setShowPassword(!showPassword);
 
     const handleSubmit = async e => {
         try {
@@ -93,6 +98,7 @@ const SignIn = (props) => {
                 {formUser.errors.length > 0 && <LextaticoBoxError>{formUser.errors.map(error => <span>* {error}</span>)}</LextaticoBoxError>}
                 <LextaticoTextField
                     type="text"
+                    required
                     label="Nome"
                     variant="outlined"
                     value={formUser.name.value}
@@ -102,6 +108,7 @@ const SignIn = (props) => {
                 />
                 <LextaticoTextField
                     type="email"
+                    required
                     label="Endereço de e-mail"
                     variant="outlined"
                     value={formUser.email.value}
@@ -110,16 +117,30 @@ const SignIn = (props) => {
                     onChange={e => setFormUser((prev) => ({ ...prev, email: { value: e.target.value, error: "" } }))}
                 />
                 <LextaticoTextField
-                    type="password"
+                    type={showPassword ? "text" : "password"}
+                    required
                     label="Senha"
                     variant="outlined"
                     value={formUser.password.value}
                     error={formUser.password.error !== ""}
                     helperText={formUser.password.error}
                     onChange={e => setFormUser((prev) => ({ ...prev, password: { value: e.target.value, error: "" } }))}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton
+                                    aria-label="Exibir senha"
+                                    onClick={handleClickShowPassword}
+                                >
+                                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                                </IconButton>
+                            </InputAdornment>
+                        )
+                    }}
                 />
                 <LextaticoTextField
-                    type="password"
+                    type={showPassword ? "text" : "password"}
+                    required
                     label="Confirmação de senha"
                     variant="outlined"
                     value={formUser.confirmPassword.value}
@@ -127,6 +148,18 @@ const SignIn = (props) => {
                     helperText={formUser.confirmPassword.error}
                     onKeyDown={e => e.key === "Enter" && isOk ? handleSubmit(e) : null}
                     onChange={e => setFormUser((prev) => ({ ...prev, confirmPassword: { value: e.target.value, error: "" } }))}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton
+                                    aria-label="Exibir senha"
+                                    onClick={handleClickShowPassword}
+                                >
+                                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                                </IconButton>
+                            </InputAdornment>
+                        )
+                    }}
                 />
                 <LextaticoButton onClick={handleSubmit} disabled={!isOk} type="submit">{!loading
                     ? "Cadastrar"
