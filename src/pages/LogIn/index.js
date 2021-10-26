@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react"
 import SwipeableViews from "react-swipeable-views"
 import { Link as RouterLink, withRouter } from "react-router-dom"
-import { Grid, Link, makeStyles, Typography } from "@material-ui/core"
+import { Grid, IconButton, InputAdornment, Link, makeStyles, Typography } from "@material-ui/core"
 import { LextaticoBoxError } from "../../styles/common"
 import { LextaticoTextField, LextaticoBox, LextaticoForm, LextaticoFormContentCenter, LextaticoFormContentLeft, LextaticoButton, LextaticoHr, LextaticoImg } from "./styles"
 import Logo from "../../assets/Logo.png"
@@ -9,6 +9,7 @@ import AccountService from "../../services/accountService"
 import CircularProgress from '@material-ui/core/CircularProgress'
 
 import { MyContext } from "../../App";
+import { Visibility, VisibilityOff } from "@material-ui/icons"
 
 const useStyles = makeStyles({
     gridCenter: {
@@ -27,6 +28,10 @@ const LextaticoLink = (props) => {
 const FormUser = ({ formUser, setFormUser, handleSubmit, isOk, loading, forgotNextHandleClick }) => {
     const styles = useStyles();
 
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleClickShowPassword = () => setShowPassword(!showPassword);
+
     return (
         <LextaticoFormContentCenter>
             <LextaticoImg src={Logo} alt="Lextatico logo" />
@@ -42,7 +47,7 @@ const FormUser = ({ formUser, setFormUser, handleSubmit, isOk, loading, forgotNe
                 onChange={e => setFormUser((prev) => ({ ...prev, email: { value: e.target.value, error: "" } }))}
             />
             <LextaticoTextField
-                type="password"
+                type={showPassword ? "text" : "password"}
                 label="Senha"
                 variant="outlined"
                 value={formUser.password.value}
@@ -50,6 +55,18 @@ const FormUser = ({ formUser, setFormUser, handleSubmit, isOk, loading, forgotNe
                 helperText={formUser.password.error}
                 onKeyDown={e => e.key === "Enter" && isOk ? handleSubmit(e) : null}
                 onChange={e => setFormUser((prev) => ({ ...prev, password: { value: e.target.value, error: "" } }))}
+                InputProps={{
+                    endAdornment: (
+                        <InputAdornment position="end">
+                            <IconButton
+                                aria-label="Exibir senha"
+                                onClick={handleClickShowPassword}
+                            >
+                                {showPassword ? <Visibility /> : <VisibilityOff />}
+                            </IconButton>
+                        </InputAdornment>
+                    )
+                }}
             />
             <LextaticoButton onClick={handleSubmit} disabled={!isOk} type="submit">{!loading
                 ? "Entrar"
@@ -80,6 +97,7 @@ const ForgotPassword = ({ loading, forgotHandleClick, forgotBackHandleClick, for
 
             <LextaticoTextField
                 type="email"
+                required
                 label="Endereço de e-mail"
                 variant="outlined"
                 value={formUser.email.value}
