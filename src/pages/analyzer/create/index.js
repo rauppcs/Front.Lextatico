@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { useTheme } from '@material-ui/core/styles';
 import { withRouter } from "react-router-dom/cjs/react-router-dom.min"
 import { Paper } from '@material-ui/core';
 import AnalyzerFormStepper from '../analyzerFormStepper';
@@ -67,12 +67,14 @@ const Create = (props) => {
         })
     }
 
-    useEffect(async () => {
-        const { result } = await terminalTokenService.getTerminalTokens();
+    useEffect(() => {
+        (async function () {
+            const { result } = await terminalTokenService.getTerminalTokens();
 
-        setTerminalTokens(result.data);
+            setTerminalTokens(result.data);
 
-        setLoading(false);
+            setLoading(false);
+        })();
     }, []);
 
     return (

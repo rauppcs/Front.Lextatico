@@ -23,12 +23,14 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 	const [loading, setLoading] = useState(true);
 	const { authenticated, setAuthenticated } = useContext(MyContext);
 
-	useEffect(async () => {
-		const authenticated = await isAuthenticated();
+	useEffect(() => {
+		(async function () {
+			const authenticated = await isAuthenticated();
 
-		setAuthenticated(authenticated);
+			setAuthenticated(authenticated);
 
-		setLoading(false);
+			setLoading(false);
+		})();
 	}, [setAuthenticated]);
 
 	return (

@@ -1,7 +1,6 @@
 import { Box, CircularProgress } from '@material-ui/core'
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { Fragment } from 'react'
-import { Helmet } from 'react-helmet'
 import { LextaticoLoadingBox } from "./styles"
 
 export const CircularLoading = ({ height, sizeLoading = 50 }) => {
@@ -23,5 +22,3 @@ export const LinearLoading = ({ height, sizeLoading = 50 }) => {
         </Fragment>
     );
 }
-
-export default { CircularLoading, LinearLoading }

@@ -23,12 +23,14 @@ const analyzerService = {
 
     async deleteAnalyzer(analyzerId) {
         const response = await deleteQueryFor(`/api/analyzer/${analyzerId}`)
+
+        return { response, result: httpStatusCodeValid(response.status) }
     },
 
     async deleteAnalyzers(analyzerIds) {
         const response = await postQueryFor("/api/analyzer/deleteBulk", analyzerIds);
 
-        return { response, result: response.data };
+        return { response, result: httpStatusCodeValid(response.status) };
     }
 }
 

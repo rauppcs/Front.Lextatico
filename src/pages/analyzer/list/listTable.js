@@ -1,11 +1,6 @@
-import { Button, Checkbox, FormControlLabel, IconButton, lighten, makeStyles, Paper, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Toolbar, Tooltip, Typography, useTheme } from "@material-ui/core";
-import { Pagination } from "@material-ui/lab";
-import { Fragment, useEffect, useState } from "react";
-import { withRouter } from "react-router-dom/cjs/react-router-dom.min";
-import { CircularLoading, LinearLoading } from "../../../common/components/Loading";
-import analyzerService from "../../../services/analyzerService";
+import { Button, Checkbox, IconButton, lighten, makeStyles, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Toolbar, Tooltip, Typography } from "@material-ui/core";
+import { useState } from "react";
 import { Delete as DeleteIcon, AddCircle } from "@material-ui/icons";
-import FilterListIcon from "@material-ui/icons/FilterList";
 import clsx from "clsx";
 import PropTypes from 'prop-types';
 
@@ -256,7 +251,7 @@ const ListTable = ({ rows = [], page, size, count, handleChangePage, handleChang
                         rowCount={rows.length}
                     />
                     <TableBody>
-                        {rows.length == 0 ?
+                        {rows.length === 0 ?
                             <TableRow>
                                 <TableCell colSpan={headCells.length + 1} align="center">
                                     Não há resultados

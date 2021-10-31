@@ -1,10 +1,10 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import { useState } from "react";
-import { Accordion, AccordionDetails, AccordionSummary, Box, Checkbox, FormControlLabel, makeStyles, TextField, Tooltip, Typography, useTheme, withStyles } from '@material-ui/core';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Checkbox, FormControlLabel, makeStyles, TextField, Tooltip, Typography, useTheme } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { groupBy } from '../../utils/array';
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
@@ -134,6 +134,8 @@ const AnalyzerFormStepper = ({ steps, analyzer, terminalTokens, handleChangeName
                         value={analyzer.name}
                         onChange={handleChangeName} />
                 )
+            default:
+                return "";
         }
     }
 

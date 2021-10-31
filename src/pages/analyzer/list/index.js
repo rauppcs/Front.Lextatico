@@ -1,9 +1,9 @@
-import { Checkbox, FormControlLabel, IconButton, lighten, makeStyles, Paper, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Toolbar, Tooltip, Typography, useTheme } from "@material-ui/core";
+import { Paper, useTheme } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
 import { Fragment, useEffect, useState } from "react";
 import { withRouter } from "react-router-dom/cjs/react-router-dom.min";
 import AlertDialog from "../../../common/components/alert";
-import { CircularLoading, LinearLoading } from "../../../common/components/Loading";
+import { CircularLoading } from "../../../common/components/Loading";
 import analyzerService from "../../../services/analyzerService";
 import ListTable from "./listTable";
 
@@ -20,7 +20,7 @@ const List = ({ history }) => {
 
     const [page, setPage] = useState(1);
 
-    const [size, setSize] = useState(10);
+    const size = 10;
 
     const [count, setCount] = useState(0);
 
@@ -60,18 +60,20 @@ const List = ({ history }) => {
         }
     }
 
-    useEffect(async () => {
-        setLoading(true);
+    useEffect(() => {
+        (async function () {
+            setLoading(true);
 
-        const { result } = await analyzerService.getAnalyzers(page, size);
+            const { result } = await analyzerService.getAnalyzers(page, size);
 
-        setAnalyzers(result.data);
+            setAnalyzers(result.data);
 
-        setCount(Math.ceil(result.totalRecords / size));
+            setCount(Math.ceil(result.totalRecords / size));
 
-        setReload(false);
+            setReload(false);
 
-        setLoading(false);
+            setLoading(false);
+        })();
     }, [page, reload]);
 
     return (
