@@ -6,7 +6,7 @@ const accountService = {
     async getUser() {
         const response = await getQueryFor("/api/account/get-user");
 
-        return { response, data: response.data };
+        return { response, result: response.data };
     },
 
     async login(formUser, setUser) {
@@ -18,7 +18,7 @@ const accountService = {
             setUser(response.data.data.user);
         }
 
-        return { response, data: response.data };
+        return { response, result: response.data };
     },
 
     async logout(setUser) {
@@ -30,13 +30,13 @@ const accountService = {
     async signIn(user) {
         const response = await postQueryFor("/api/account/signin", user);
 
-        return { response, data: response.data };
+        return { response, result: response.data };
     },
 
     async validateToken() {
         const response = await getQueryFor("/api/account/validate-token");
 
-        return { response, data: httpStatusCodeValid(response.status) };
+        return { response, result: httpStatusCodeValid(response.status) };
     },
 
     async refreshToken(refreshToken) {
@@ -48,13 +48,13 @@ const accountService = {
             login(response.data.data);
         }
 
-        return { response, data: response.data };
+        return { response, result: response.data };
     },
 
     async resetPassword(user) {
         const response = await postQueryFor("/api/account/reset-password", user);
 
-        return { response, data: response.data };
+        return { response, result: response.data };
     },
 
     async forgotPassword(email) {
@@ -62,7 +62,7 @@ const accountService = {
             email
         });
 
-        return { response, data: response.data };
+        return { response, result: response.data };
     }
 }
 

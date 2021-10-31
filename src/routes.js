@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react"
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom"
 import { isAuthenticated } from "./services/authService"
-import Login from "./pages/LogIn"
-import SignIn from "./pages/SignIn"
+import Login from "./pages/logIn"
+import SignIn from "./pages/signIn"
 import { MyContext } from "./App"
 import { useContext } from "react"
-import LextaticoApp from "./pages/LextaticoApp"
-import Loading from "./common/components/Loading"
-import NotFound from "./pages/NotFound"
-import ResetPassword from "./pages/ResetPassword"
+import Analyzer from "./pages/analyzer"
+import { CircularLoading } from "./common/components/Loading"
+import NotFound from "./pages/notFound"
+import ResetPassword from "./pages/resetPassword"
 
 const PublicRoute = ({ component: Component, ...rest }) => {
 	return (
@@ -23,14 +23,12 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 	const [loading, setLoading] = useState(true);
 	const { authenticated, setAuthenticated } = useContext(MyContext);
 
-	useEffect(() => {
-		(async function () {
-			const authenticated = await isAuthenticated();
+	useEffect(async () => {
+		const authenticated = await isAuthenticated();
 
-			setAuthenticated(authenticated);
+		setAuthenticated(authenticated);
 
-			setLoading(false);
-		})();
+		setLoading(false);
 	}, [setAuthenticated]);
 
 	return (
@@ -45,7 +43,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 					)
 				}
 			/>
-			: <Loading />
+			: <CircularLoading />
 	);
 }
 
@@ -53,13 +51,12 @@ const Routes = () => {
 	return (
 		<BrowserRouter>
 			<Switch>
-				<PrivateRoute path="/analisadores" component={LextaticoApp} />
+				<PrivateRoute path="/analisadores" component={Analyzer} />
 				<PublicRoute path="/login" component={Login} />
 				<PublicRoute path="/signIn" component={SignIn} />
 				<PublicRoute path="/resetPassword" component={ResetPassword} />
-				<PublicRoute path="/404" component={NotFound} />
 				<Redirect exact from="/" to="/analisadores" />
-				<Redirect from="*" to="/404" />
+				<PublicRoute path="*" component={NotFound} />
 			</Switch>
 		</BrowserRouter>
 	);

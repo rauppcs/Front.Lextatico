@@ -5,7 +5,7 @@ import { Grid, IconButton, InputAdornment, Link, makeStyles, Typography } from "
 import { LextaticoBoxError } from "../../styles/common"
 import { LextaticoTextField, LextaticoBox, LextaticoForm, LextaticoFormContentCenter, LextaticoFormContentLeft, LextaticoButton, LextaticoHr, LextaticoImg } from "./styles"
 import Logo from "../../assets/Logo.png"
-import AccountService from "../../services/accountService"
+import accountService from "../../services/accountService"
 import CircularProgress from '@material-ui/core/CircularProgress'
 
 import { MyContext } from "../../App";
@@ -68,7 +68,7 @@ const FormUser = ({ formUser, setFormUser, handleSubmit, isOk, loading, forgotNe
                     )
                 }}
             />
-            <LextaticoButton onClick={handleSubmit} disabled={!isOk} type="submit">{!loading
+            <LextaticoButton variant="contained" color="primary" onClick={handleSubmit} disabled={!isOk} type="submit">{!loading
                 ? "Entrar"
                 : <CircularProgress size={30} color={"white"} />}
             </LextaticoButton>
@@ -136,7 +136,7 @@ const SwipeableForm = (props) => {
         try {
             setLoading(true);
 
-            await AccountService.forgotPassword(props.formUser.email.value);
+            await accountService.forgotPassword(props.formUser.email.value);
 
             setSnackBar((prev) => ({ ...prev, open: true, severity: "success", message: "Email enviado." }));
             forgotBackHandleClick();
@@ -196,7 +196,7 @@ const Login = (props) => {
                 password: formUser.password.value
             };
 
-            await AccountService.login(user, setUser);
+            await accountService.login(user, setUser);
 
             props.history.push("/");
         } catch (error) {

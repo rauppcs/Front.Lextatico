@@ -161,7 +161,7 @@ const SignIn = (props) => {
                         )
                     }}
                 />
-                <LextaticoButton onClick={handleSubmit} disabled={!isOk} type="submit">{!loading
+                <LextaticoButton variant="contained" color="primary" onClick={handleSubmit} disabled={!isOk} type="submit">{!loading
                     ? "Cadastrar"
                     : <CircularProgress size={30} color={"white"} />}
                 </LextaticoButton>

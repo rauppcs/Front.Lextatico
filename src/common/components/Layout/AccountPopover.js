@@ -5,7 +5,7 @@ import { alpha } from '@material-ui/core/styles';
 import { Button, Box, Divider, MenuItem, Typography, IconButton } from '@material-ui/core';
 import Home from "@material-ui/icons/Home"
 // components
-import MenuPopover from '../../components/MenuPopover';
+import MenuPopover from '../menuPopover';
 import { MyContext } from '../../../App';
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 // ----------------------------------------------------------------------

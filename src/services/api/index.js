@@ -57,7 +57,7 @@ export const putQueryFor = async (route, data) => {
 
 export const deleteQueryFor = async (route) => {
 	// try {
-	const response = await api.delete < Number > (route);
+	const response = await api.delete(route);
 
 	return response;
 	// } catch (error) {

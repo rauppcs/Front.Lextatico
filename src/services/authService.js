@@ -9,7 +9,7 @@ export const isAuthenticated = async () => {
 			return false;
 		}
 
-		const { data: tokenValid } = await accountService.validateToken();
+		const tokenValid = await accountService.validateToken();
 
 		return tokenValid;
 	} catch (error) {

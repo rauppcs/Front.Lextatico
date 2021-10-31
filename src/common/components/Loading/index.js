@@ -1,17 +1,27 @@
-import CircularProgress from '@material-ui/core/CircularProgress'
+import { Box, CircularProgress } from '@material-ui/core'
+import LinearProgress from '@material-ui/core/LinearProgress';
 import { Fragment } from 'react'
 import { Helmet } from 'react-helmet'
 import { LextaticoLoadingBox } from "./styles"
 
-const Loading = () => {
+export const CircularLoading = ({ height, sizeLoading = 50 }) => {
     return (
         <Fragment>
-            <Helmet title={`${process.env.REACT_APP_TITLE} | Loading`} />
-            <LextaticoLoadingBox>
-                <CircularProgress size={100} />
+            <LextaticoLoadingBox style={{ height: height }}>
+                <CircularProgress size={sizeLoading} />
             </LextaticoLoadingBox>
         </Fragment>
     );
 }
 
-export default Loading
+export const LinearLoading = ({ height, sizeLoading = 50 }) => {
+    return (
+        <Fragment>
+            <Box style={{ height: height }}>
+                <LinearProgress />
+            </Box>
+        </Fragment>
+    );
+}
+
+export default { CircularLoading, LinearLoading }

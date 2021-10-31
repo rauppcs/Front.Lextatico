@@ -31,13 +31,8 @@ export const LextaticoTextField = styled(TextField)({
 
 export const LextaticoButton = styled(Button)(({ theme }) => ({
     width: "100%",
-    background: theme.palette.primary.main,
-    color: theme.palette.text.light,
     marginBottom: theme.spacing(2),
-    height: 48,
-    "&:hover": {
-        backgroundColor: theme.palette.primary.light,
-    }
+    height: 48
 }));
 
 export const LextaticoHr = styled("hr")(({ theme }) => ({

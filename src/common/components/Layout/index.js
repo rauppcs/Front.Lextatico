@@ -1,10 +1,10 @@
 import React, { Fragment, useContext, useState } from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, styled } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import { ListItem } from '@material-ui/core';
+import { ListItem, alpha } from '@material-ui/core';
 import { NavLink, useRouteMatch } from 'react-router-dom';
 import ListItemText from '@material-ui/core/ListItemText';
 import Box from '@material-ui/core/Box';
@@ -18,10 +18,11 @@ import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import AccountPopover from './AccountPopover';
+import AccountPopover from './accountPopover';
 import { MyContext } from '../../../App';
 import AccountService from '../../../services/accountService';
-import { mainList } from "./mainList"
+import { mainList } from "./mainList";
+import SimpleBarReact from "simplebar-react";
 
 function Copyright() {
     return (
@@ -89,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
     drawerPaper: {
-        position: "relative",
+        position: "fixed",
         overflowY: "auto",
         whiteSpace: 'nowrap',
         width: theme.spacing(30),
@@ -117,18 +118,14 @@ const useStyles = makeStyles((theme) => ({
             }
         }
     },
-    appBarSpacer: theme.mixins.toolbar,
     content: {
-        flexGrow: 1,
-        height: '100vh',
-        overflow: 'auto',
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(2),
         [theme.breakpoints.up("sm")]: {
-            marginLeft: theme.spacing(0)
-        },
-        [theme.breakpoints.down("sm")]: {
-            marginLeft: theme.spacing(0)
+            marginLeft: theme.spacing(8),
         }
     },
+    appBarSpacer: theme.mixins.toolbar,
     container: {
         paddingTop: theme.spacing(4),
         paddingBottom: theme.spacing(4),
@@ -141,8 +138,9 @@ const useStyles = makeStyles((theme) => ({
     },
     boxCopyright: {
         position: "fixed",
+        backgroundColor: theme.palette.background.paper,
         bottom: 0,
-        marginBottom: "10px",
+        padding: theme.spacing(0.5),
         width: `calc(100%)`
     }
 }));
@@ -187,7 +185,7 @@ export default function Layout({ children }) {
     return (
         <div className={classes.root}>
             <CssBaseline />
-            <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+            <AppBar position="fixed" className={clsx(classes.appBar, open && classes.appBarShift)}>
                 <Toolbar>
                     <IconButton
                         edge="start"
@@ -234,9 +232,9 @@ export default function Layout({ children }) {
                 <div className={classes.appBarSpacer} />
                 {children}
             </Container>
-            <Box className={classes.boxCopyright} pt={4}>
+            {/* <Box className={classes.boxCopyright} >
                 <Copyright />
-            </Box>
+            </Box> */}
         </div>
     );
 }
