@@ -1,15 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useTheme } from '@material-ui/core/styles';
-import { withRouter } from "react-router-dom/cjs/react-router-dom.min"
+import { useLocation, withRouter } from "react-router-dom/cjs/react-router-dom.min"
 import { Paper } from '@material-ui/core';
 import AnalyzerFormStepper from '../analyzerFormStepper';
 import terminalTokenService from '../../../services/terminalTokenService';
 import analyzerService from "../../../services/analyzerService";
 import { CircularLoading } from '../../../common/components/loading';
 import { MyContext } from '../../../App';
+import { useQuery } from '../../../utils/url';
 
-const Create = (props) => {
+const Edit = (props) => {
     const theme = useTheme();
+
+    const query = useQuery(useLocation().search)
 
     const { setSnackBar } = useContext(MyContext);
 
@@ -69,9 +72,13 @@ const Create = (props) => {
 
     useEffect(() => {
         (async function () {
-            const { result } = await terminalTokenService.getTerminalTokens();
+            const { result: terminalTokens } = await terminalTokenService.getTerminalTokens();
 
-            setTerminalTokens(result.data);
+            const { result: analyzer } = await analyzerService.getAnalyzer(query.get("id"))
+
+            setTerminalTokens(terminalTokens.data);
+
+            setAnalyzer(analyzer);
 
             setLoading(false);
         })();
@@ -86,4 +93,4 @@ const Create = (props) => {
     )
 }
 
-export default withRouter(Create);
+export default withRouter(Edit);

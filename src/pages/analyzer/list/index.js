@@ -3,7 +3,7 @@ import { Pagination } from "@material-ui/lab";
 import { Fragment, useEffect, useState } from "react";
 import { withRouter } from "react-router-dom/cjs/react-router-dom.min";
 import AlertDialog from "../../../common/components/alert";
-import { CircularLoading } from "../../../common/components/Loading";
+import { CircularLoading } from "../../../common/components/loading";
 import analyzerService from "../../../services/analyzerService";
 import ListTable from "./listTable";
 

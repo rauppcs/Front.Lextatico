@@ -6,7 +6,7 @@ import SignIn from "./pages/signIn"
 import { MyContext } from "./App"
 import { useContext } from "react"
 import Analyzer from "./pages/analyzer"
-import { CircularLoading } from "./common/components/Loading"
+import { CircularLoading } from "./common/components/loading"
 import NotFound from "./pages/notFound"
 import ResetPassword from "./pages/resetPassword"
 
