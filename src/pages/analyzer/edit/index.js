@@ -1,20 +1,23 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useTheme } from '@material-ui/core/styles';
-import { useLocation, withRouter } from "react-router-dom/cjs/react-router-dom.min"
 import { Paper } from '@material-ui/core';
 import AnalyzerFormStepper from '../analyzerFormStepper';
 import terminalTokenService from '../../../services/terminalTokenService';
 import analyzerService from "../../../services/analyzerService";
 import { CircularLoading } from '../../../common/components/loading';
 import { MyContext } from '../../../App';
-import { useQuery } from '../../../utils/url';
+import { useParams, useLocation, withRouter } from 'react-router-dom';
 
 const Edit = (props) => {
+    const { setTitleName, setSnackBar } = useContext(MyContext);
+
+    useEffect(() => {
+        setTitleName("Analisadores");
+    }, [setTitleName]);
+
     const theme = useTheme();
 
-    const query = useQuery(useLocation().search)
-
-    const { setSnackBar } = useContext(MyContext);
+    const { id } = useParams();
 
     const [loading, setLoading] = useState(true);
 
@@ -40,22 +43,14 @@ const Edit = (props) => {
 
             setAnalyzer(prev => ({ ...prev, analyzer }));
 
-            await analyzerService.postAnalyzer(analyzer);
+            await analyzerService.putAnalyzer(id, analyzer);
 
             props.history.push("/");
         } catch (error) {
             if (error.response.status >= 500)
                 setSnackBar((prev) => ({ ...prev, open: true, severity: "error", message: error.response.data.errors.map(({ message }) => `${message}\n`) }));
-            // else {
-            //     error.response.data.errors.forEach(({ property, message }) => {
-            //         if (property !== "")
-            //             formUser[property].error = message;
-            //         else {
-            //             formUser.errors.push(message)
-            //         }
-            //     });
 
-            //     setFormUser((prev) => ({ ...prev, formUser }));
+            // TODO: AQUI CRIAR VARIAVEL COM PROP/ERRO PARA ENVIAR PARA DENTRO DO ANALYZERFORMSTEPPER
             // }
         } finally {
             setLoading(false);
@@ -72,15 +67,24 @@ const Edit = (props) => {
 
     useEffect(() => {
         (async function () {
-            const { result: terminalTokens } = await terminalTokenService.getTerminalTokens();
+            try {
+                setLoading(true);
 
-            const { result: analyzer } = await analyzerService.getAnalyzer(query.get("id"))
+                const { result: terminalTokens } = await terminalTokenService.getTerminalTokens();
 
-            setTerminalTokens(terminalTokens.data);
+                const { result: analyzer } = await analyzerService.getAnalyzer(id)
 
-            setAnalyzer(analyzer);
+                setTerminalTokens(terminalTokens.data);
 
-            setLoading(false);
+                setAnalyzer(analyzer.data);
+            } catch (error) {
+                if (error.response.status >= 500)
+                    setSnackBar((prev) => ({ ...prev, open: true, severity: "error", message: error.response.data.errors.map(({ message }) => `${message}\n`) }));
+
+                // TODO: AQUI CRIAR VARIAVEL COM PROP/ERRO PARA ENVIAR PARA DENTRO DO ANALYZERFORMSTEPPER
+            } finally {
+                setLoading(false);
+            }
         })();
     }, []);
 

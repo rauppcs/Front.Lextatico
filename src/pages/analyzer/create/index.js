@@ -9,9 +9,13 @@ import { CircularLoading } from '../../../common/components/loading';
 import { MyContext } from '../../../App';
 
 const Create = (props) => {
-    const theme = useTheme();
+    const { setTitleName, setSnackBar } = useContext(MyContext);
 
-    const { setSnackBar } = useContext(MyContext);
+    useEffect(() => {
+        setTitleName("Analisadores");
+    }, [setTitleName]);
+
+    const theme = useTheme();
 
     const [loading, setLoading] = useState(true);
 

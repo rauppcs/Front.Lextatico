@@ -1,13 +1,20 @@
 import { Paper, useTheme } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { withRouter } from "react-router-dom/cjs/react-router-dom.min";
+import { MyContext } from "../../../App";
 import AlertDialog from "../../../common/components/alert";
 import { CircularLoading } from "../../../common/components/loading";
 import analyzerService from "../../../services/analyzerService";
 import ListTable from "./listTable";
 
 const List = ({ history }) => {
+    const { setTitleName } = useContext(MyContext);
+
+    useEffect(() => {
+        setTitleName("Analisadores");
+    }, [setTitleName]);
+
     const theme = useTheme();
 
     const [open, setOpen] = useState(false);

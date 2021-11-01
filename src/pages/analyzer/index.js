@@ -7,12 +7,6 @@ import Create from "./create";
 import Edit from "./edit";
 
 const Analyzer = () => {
-    const { setTitleName } = useContext(MyContext);
-
-    useEffect(() => {
-        setTitleName("Analisadores");
-    }, [setTitleName]);
-
     const { path } = useRouteMatch();
 
     return (

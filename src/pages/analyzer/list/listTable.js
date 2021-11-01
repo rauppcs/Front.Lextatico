@@ -1,10 +1,11 @@
 import { Button, Checkbox, IconButton, lighten, makeStyles, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Toolbar, Tooltip, Typography } from "@material-ui/core";
 import { useState } from "react";
-import { Delete as DeleteIcon, AddCircle } from "@material-ui/icons";
+import { Delete as DeleteIcon, Edit as EditIcon, AddCircle } from "@material-ui/icons";
 import clsx from "clsx";
 import PropTypes from 'prop-types';
+import { withRouter } from "react-router-dom";
 
-const ListTable = ({ rows = [], page, size, count, handleChangePage, handleChangeRowsPerPage, handleClickCreate, handleClickDelete, pagination = false }) => {
+const ListTable = ({ rows = [], page, size, count, handleChangePage, handleChangeRowsPerPage, handleClickCreate, handleClickDelete, pagination = false, ...props }) => {
     function descendingComparator(a, b, orderBy) {
         if (b[orderBy] < a[orderBy]) {
             return -1;
@@ -32,7 +33,8 @@ const ListTable = ({ rows = [], page, size, count, handleChangePage, handleChang
     }
 
     const headCells = [
-        { id: "name", numeric: false, disablePadding: true, label: "Nome" }
+        { id: "name", numeric: false, disablePadding: true, label: "Nome" },
+        { id: "empty", numeric: false, disablePadding: true, label: "" }
     ];
 
     function EnhancedTableHead(props) {
@@ -207,6 +209,10 @@ const ListTable = ({ rows = [], page, size, count, handleChangePage, handleChang
         setSelected([]);
     };
 
+    const handleClickEdit = (id) => {
+        props.history.push(`/analisadores/editar/${id}`);
+    }
+
     const handleClick = (event, name) => {
         const selectedIndex = selected.indexOf(name);
         let newSelected = [];
@@ -226,8 +232,6 @@ const ListTable = ({ rows = [], page, size, count, handleChangePage, handleChang
 
         setSelected(newSelected);
     };
-
-
 
     const isSelected = (id) => selected.indexOf(id) !== -1;
 
@@ -278,7 +282,12 @@ const ListTable = ({ rows = [], page, size, count, handleChangePage, handleChang
                                                     checked={isItemSelected}
                                                     inputProps={{ "aria-labelledby": labelId }} />
                                             </TableCell>
-                                            <TableCell component="th" id={labelId} scope="row" padding="none">{row.name}</TableCell>
+                                            <TableCell component="td" id={labelId} scope="row" padding="none">{row.name}</TableCell>
+                                            <TableCell style={{ display: "flex", justifyContent: "flex-end" }} >
+                                                <IconButton onClick={() => handleClickEdit(row.id)} variant="outlined" color="primary" aria-label="delete">
+                                                    <EditIcon />
+                                                </IconButton>
+                                            </TableCell>
                                         </TableRow>
                                     );
                                 })}
@@ -308,4 +317,4 @@ ListTable.propTypes = {
     pagination: PropTypes.bool
 };
 
-export default ListTable;
+export default withRouter(ListTable);

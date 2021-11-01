@@ -1,6 +1,12 @@
-import { getQueryFor, postQueryFor, httpStatusCodeValid, deleteQueryFor } from "./api";
+import { getQueryFor, postQueryFor, httpStatusCodeValid, deleteQueryFor, putQueryFor } from "./api";
 
 const analyzerService = {
+    async getAnalyzer(id) {
+        const response = await getQueryFor(`/api/analyzer/${id}`);
+
+        return { response, result: response.data };
+    },
+
     async getAnalyzers(page = 1, size = 10) {
         const response = await getQueryFor(`/api/analyzer?page=${page}&size=${size}`);
 
@@ -17,6 +23,12 @@ const analyzerService = {
 
     async postAnalyzer(analyzer) {
         const response = await postQueryFor("/api/analyzer", analyzer);
+
+        return { response, result: response.data };
+    },
+
+    async putAnalyzer(id, analyzer) {
+        const response = await putQueryFor(`/api/analyzer/${id}`, analyzer);
 
         return { response, result: response.data };
     },
