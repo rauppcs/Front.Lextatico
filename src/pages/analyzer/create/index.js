@@ -7,7 +7,6 @@ import terminalTokenService from '../../../services/terminalTokenService';
 import analyzerService from "../../../services/analyzerService";
 import { CircularLoading } from '../../../common/components/loading';
 import { MyContext } from '../../../App';
-import { Guid } from 'js-guid';
 
 const Create = (props) => {
     const { setTitleName, setSnackBar } = useContext(MyContext);

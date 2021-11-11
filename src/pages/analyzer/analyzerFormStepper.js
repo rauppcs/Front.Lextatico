@@ -4,12 +4,11 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import { useState } from "react";
-import { Accordion, AccordionDetails, AccordionSummary, Box, Checkbox, CircularProgress, FormControlLabel, makeStyles, TextField, Tooltip, Typography, useTheme, Grid, Divider, IconButton, MenuItem, ListItem, List, Dialog, DialogTitle, ListItemText } from '@material-ui/core';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Checkbox, CircularProgress, FormControlLabel, makeStyles, TextField, Tooltip, Typography, useTheme, Grid, Divider, IconButton, ListItem, List, Dialog, DialogTitle, ListItemText } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { groupBy } from '../../utils/array';
-import { ExpandMore, AddCircle, Remove, RemoveCircle, NetworkLockedSharp } from "@material-ui/icons"
+import { ExpandMore, AddCircle, RemoveCircle } from "@material-ui/icons"
 import { translateTokenType } from '../../utils/i18n';
-import { TimelineSeparator } from '@material-ui/lab';
 import { Guid } from 'js-guid';
 import MenuPopover from '../../common/components/menuPopover';
 
@@ -147,18 +146,6 @@ const AnalyzerNonTerminalTokens = ({ selectedTerminalTokens, selectedNonTerminal
 
         newSelectedNonTerminalTokens[indexNonTerminalToken].name = newName;
 
-        const nonTerminalTokenId = newSelectedNonTerminalTokens[indexNonTerminalToken].id;
-
-        // for (const nonTerminalToken of newSelectedNonTerminalTokens) {
-        //     for (const nonTerminalTokenRule of nonTerminalToken.nonTerminalTokenRules) {
-        //         for (const nonTerminalTokenRuleClause of nonTerminalTokenRule.nonTerminalTokenRuleClauses) {
-        //             if (nonTerminalTokenRuleClause.nonTerminalTokenId === nonTerminalTokenId)
-        //                 setSelectedNonTerminalTokens
-        //                 nonTerminalTokenRuleClause.nonTerminalToken.name = newName;
-        //         }
-        //     }
-        // }
-
         setSelectedNonTerminalTokens(newSelectedNonTerminalTokens);
     }
 
@@ -196,7 +183,7 @@ const AnalyzerNonTerminalTokens = ({ selectedTerminalTokens, selectedNonTerminal
         <Fragment>
             {selectedNonTerminalTokens.map((val, indexNonTerminalToken) => {
                 return (
-                    <Grid key={indexNonTerminalToken} style={{ marginTop: theme.spacing(1) }} container key={indexNonTerminalToken}>
+                    <Grid key={indexNonTerminalToken} style={{ marginTop: theme.spacing(1) }} container>
                         <AnalyzerNonTerminalTokenItem selectedTerminalTokens={selectedTerminalTokens} selectedNonTerminalTokens={selectedNonTerminalTokens} setSelectedNonTerminalTokens={setSelectedNonTerminalTokens} item={val} indexNonTerminalToken={indexNonTerminalToken} handleChangeName={handleChangeName} handleClickRemoveNonTerminalToken={handleClickRemoveNonTerminalToken} handleClickRemoveNonTerminalTokenRuleClause={handleClickRemoveNonTerminalTokenRuleClause} />
                     </Grid>
                 )
@@ -230,9 +217,9 @@ const AnalyzerNonTerminalTokenItem = ({ item, selectedTerminalTokens, selectedNo
         setSelectedTokenType(selected.type);
 
         if (selected.type === 0) {
-            setListValue(selectedTerminalTokens.filter(val => val.checked == true));
+            setListValue(selectedTerminalTokens.filter(val => val.checked === true));
         } else if (selected.type === 1) {
-            setListValue(selectedNonTerminalTokens);
+            setListValue(selectedNonTerminalTokens.filter(f => !f.isStart));
         }
 
         setOpenDialog(true);
@@ -365,8 +352,6 @@ const AnalyzerNonTerminalTokenItem = ({ item, selectedTerminalTokens, selectedNo
 }
 
 const AnalyzerNonTerminalTokenRuleItem = ({ selectedTerminalTokens, selectedNonTerminalTokens, indexNonTerminalToken, indexNonTerminalTokenRule, indexNonTerminalTokenRuleClause, nonTerminalTokenRuleClause, handleClickRemoveNonTerminalTokenRuleClause }) => {
-    const theme = useTheme();
-
     const useStylesRemoveButton = makeStyles((theme) => ({
         button: {
             position: "absolute",
