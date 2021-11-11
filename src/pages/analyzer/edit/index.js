@@ -6,7 +6,7 @@ import terminalTokenService from '../../../services/terminalTokenService';
 import analyzerService from "../../../services/analyzerService";
 import { CircularLoading } from '../../../common/components/loading';
 import { MyContext } from '../../../App';
-import { useParams, useLocation, withRouter } from 'react-router-dom';
+import { useParams, withRouter } from 'react-router-dom';
 
 const Edit = (props) => {
     const { setTitleName, setSnackBar } = useContext(MyContext);
@@ -21,13 +21,13 @@ const Edit = (props) => {
 
     const [loading, setLoading] = useState(true);
 
+    const [loadingFinish, setLoadingFinish] = useState(false);
+
     const [analyzer, setAnalyzer] = useState({
         name: "",
         terminalTokens: [],
         nonTerminalTokens: []
     });
-
-    const [terminalTokens, setTerminalTokens] = useState([]);
 
     const steps = [
         "Selecione os tokens",
@@ -35,11 +35,13 @@ const Edit = (props) => {
         "Defina um nome"
     ]
 
-    const handleFinish = async (selectedTerminalTokens) => {
+    const handleFinish = async (selectedTerminalTokens, selectedNonTerminalTokens) => {
         try {
-            setLoading(true);
+            setLoadingFinish(true);
 
             analyzer.terminalTokens = selectedTerminalTokens.filter(f => f.checked === true);
+
+            analyzer.nonTerminalTokens = selectedNonTerminalTokens;
 
             setAnalyzer(prev => ({ ...prev, analyzer }));
 
@@ -53,7 +55,7 @@ const Edit = (props) => {
             // TODO: AQUI CRIAR VARIAVEL COM PROP/ERRO PARA ENVIAR PARA DENTRO DO ANALYZERFORMSTEPPER
             // }
         } finally {
-            setLoading(false);
+            setLoadingFinish(false);
         }
     }
 
@@ -70,13 +72,17 @@ const Edit = (props) => {
             try {
                 setLoading(true);
 
-                const { result: terminalTokens } = await terminalTokenService.getTerminalTokens();
+                const { result: terminalTokensResult } = await terminalTokenService.getTerminalTokens();
 
-                const { result: analyzer } = await analyzerService.getAnalyzer(id)
+                const { result: analyzerResult } = await analyzerService.getAnalyzer(id)
 
-                setTerminalTokens(terminalTokens.data);
+                analyzerResult.data.terminalTokens = terminalTokensResult.data.map(val => {
+                    var checked = analyzerResult.data.terminalTokens?.find(f => f.id === val.id);
+            
+                    return { ...val, checked: checked !== undefined }
+                })
 
-                setAnalyzer(analyzer.data);
+                setAnalyzer(analyzerResult.data);
             } catch (error) {
                 if (error.response.status >= 500)
                     setSnackBar((prev) => ({ ...prev, open: true, severity: "error", message: error.response.data.errors.map(({ message }) => `${message}\n`) }));
@@ -86,13 +92,13 @@ const Edit = (props) => {
                 setLoading(false);
             }
         })();
-    }, []);
+    }, [id, setSnackBar]);
 
     return (
         <Paper style={{ padding: theme.spacing(4) }} >
             {loading ?
                 <CircularLoading height={theme.spacing(6)} /> :
-                <AnalyzerFormStepper steps={steps} analyzer={analyzer} terminalTokens={terminalTokens} handleChangeName={handleChangeName} handleFinish={handleFinish} />}
+                <AnalyzerFormStepper loading={loadingFinish} steps={steps} analyzer={analyzer} handleChangeName={handleChangeName} handleFinish={handleFinish} />}
         </Paper>
     )
 }

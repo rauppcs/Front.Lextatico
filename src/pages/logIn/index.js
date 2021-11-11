@@ -105,7 +105,7 @@ const ForgotPassword = ({ loading, forgotHandleClick, forgotBackHandleClick, for
                 helperText={formUser.email.error}
                 onChange={e => setFormUser((prev) => ({ ...prev, email: { value: e.target.value, error: "" } }))}
             />
-            <LextaticoButton onClick={forgotHandleClick} disabled={!isOkForgotPassword} type="submit">{!loading
+            <LextaticoButton variant="contained" color="primary" onClick={forgotHandleClick} disabled={!isOkForgotPassword} type="submit">{!loading
                 ? "Recuperar"
                 : <CircularProgress size={30} color={"white"} />}
             </LextaticoButton>

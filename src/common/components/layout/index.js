@@ -118,7 +118,7 @@ const useStyles = makeStyles((theme) => ({
     content: {
         marginTop: theme.spacing(2),
         marginBottom: theme.spacing(2),
-        [theme.breakpoints.up("sm")]: {
+        [theme.breakpoints.up("md")]: {
             marginLeft: theme.spacing(8),
         }
     },
@@ -213,7 +213,7 @@ export default function Layout({ children }) {
                 <Divider />
                 <List>{mainList.map((val, index) => {
                     return (
-                        <Fragment title={val.name}>
+                        <Fragment>
                             <ListItemLink to={val.route}>
                                 <ListItemIcon>
                                     <val.icon />

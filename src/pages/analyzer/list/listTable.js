@@ -1,11 +1,13 @@
-import { Button, Checkbox, IconButton, lighten, makeStyles, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Toolbar, Tooltip, Typography } from "@material-ui/core";
+import { Button, Checkbox, IconButton, lighten, makeStyles, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Toolbar, Tooltip, Typography, useTheme } from "@material-ui/core";
 import { useState } from "react";
-import { Delete as DeleteIcon, Edit as EditIcon, AddCircle } from "@material-ui/icons";
+import { Delete as DeleteIcon, Send as TestIcon, Edit as EditIcon, AddCircle } from "@material-ui/icons";
 import clsx from "clsx";
 import PropTypes from 'prop-types';
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 
-const ListTable = ({ rows = [], page, size, count, handleChangePage, handleChangeRowsPerPage, handleClickCreate, handleClickDelete, pagination = false, ...props }) => {
+const ListTable = ({ rows = [], page, size, count, handleChangePage, handleChangeRowsPerPage, handleClickDelete, pagination = false, ...props }) => {
+    const theme = useTheme();
+
     function descendingComparator(a, b, orderBy) {
         if (b[orderBy] < a[orderBy]) {
             return -1;
@@ -121,6 +123,9 @@ const ListTable = ({ rows = [], page, size, count, handleChangePage, handleChang
 
     const EnhancedTableToolbar = (props) => {
         const classes = useToolbarStyles();
+
+
+
         const { numSelected } = props;
 
         return (
@@ -150,15 +155,16 @@ const ListTable = ({ rows = [], page, size, count, handleChangePage, handleChang
                 )}
 
                 {numSelected > 0 ? (
-                    <Tooltip title={<Typography>Deletar</Typography>} arrow placement="top">
+                    <Tooltip title={<Typography>Deletar</Typography>} arrow placement="bottom">
                         <IconButton onClick={() => handleClickDelete(selected)} aria-label="delete">
                             <DeleteIcon />
                         </IconButton>
                     </Tooltip>
                 ) :
-                    <Tooltip title={<Typography>Criar novo</Typography>} arrow placement="top">
+                    <Tooltip title={<Typography>Criar novo</Typography>} arrow placement="bottom">
                         <Button
-                            onClick={handleClickCreate}
+                            component={Link}
+                            to="analisadores/cadastrar"
                             variant="contained"
                             color="primary"
                             startIcon={<AddCircle />}
@@ -189,7 +195,16 @@ const ListTable = ({ rows = [], page, size, count, handleChangePage, handleChang
         }
     }));
 
+    const useStylesButton = makeStyles((theme) => ({
+        actionButton: {
+            borderRadius: "50%",
+            minWidth: 0,
+            padding: theme.spacing(1)
+        }
+    }))
+
     const classes = useStyles();
+    const classesActionButton = useStylesButton();
     const [order, setOrder] = useState("asc");
     const [orderBy, setOrderBy] = useState("name");
     const [selected, setSelected] = useState([]);
@@ -208,10 +223,6 @@ const ListTable = ({ rows = [], page, size, count, handleChangePage, handleChang
         }
         setSelected([]);
     };
-
-    const handleClickEdit = (id) => {
-        props.history.push(`/analisadores/editar/${id}`);
-    }
 
     const handleClick = (event, name) => {
         const selectedIndex = selected.indexOf(name);
@@ -284,9 +295,16 @@ const ListTable = ({ rows = [], page, size, count, handleChangePage, handleChang
                                             </TableCell>
                                             <TableCell component="td" id={labelId} scope="row" padding="none">{row.name}</TableCell>
                                             <TableCell style={{ display: "flex", justifyContent: "flex-end" }} >
-                                                <IconButton onClick={() => handleClickEdit(row.id)} variant="outlined" color="primary" aria-label="delete">
-                                                    <EditIcon />
-                                                </IconButton>
+                                                <Tooltip arrow title={<Typography>Testar</Typography>}>
+                                                    <Button className={classesActionButton.actionButton} component={Link} to={`analisadores/testar/${row.id}`} style={{ marginRight: theme.spacing(1) }} variant="outlined" color={"primary"}>
+                                                        <TestIcon />
+                                                    </Button>
+                                                </Tooltip>
+                                                <Tooltip arrow title={<Typography>Editar</Typography>}>
+                                                    <Button className={classesActionButton.actionButton} component={Link} to={`analisadores/editar/${row.id}`} variant="outlined" color="primary" aria-label="editar">
+                                                        <EditIcon />
+                                                    </Button>
+                                                </Tooltip>
                                             </TableCell>
                                         </TableRow>
                                     );

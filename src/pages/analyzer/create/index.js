@@ -7,6 +7,7 @@ import terminalTokenService from '../../../services/terminalTokenService';
 import analyzerService from "../../../services/analyzerService";
 import { CircularLoading } from '../../../common/components/loading';
 import { MyContext } from '../../../App';
+import { Guid } from 'js-guid';
 
 const Create = (props) => {
     const { setTitleName, setSnackBar } = useContext(MyContext);
@@ -22,10 +23,13 @@ const Create = (props) => {
     const [analyzer, setAnalyzer] = useState({
         name: "",
         terminalTokens: [],
-        nonTerminalTokens: []
+        nonTerminalTokens: [{
+            isStart: true,
+            name: "start",
+            nonTerminalTokenRules: [],
+            sequence: 0
+        }]
     });
-
-    const [terminalTokens, setTerminalTokens] = useState([]);
 
     const steps = [
         "Selecione os tokens",
@@ -33,11 +37,13 @@ const Create = (props) => {
         "Defina um nome"
     ]
 
-    const handleFinish = async (selectedTerminalTokens) => {
+    const handleFinish = async (selectedTerminalTokens, selectedNonTerminalTokens) => {
         try {
             setLoading(true);
 
             analyzer.terminalTokens = selectedTerminalTokens.filter(f => f.checked === true);
+
+            analyzer.nonTerminalTokens = selectedNonTerminalTokens;
 
             setAnalyzer(prev => ({ ...prev, analyzer }));
 
@@ -73,9 +79,17 @@ const Create = (props) => {
 
     useEffect(() => {
         (async function () {
+            setLoading(true);
+
             const { result } = await terminalTokenService.getTerminalTokens();
 
-            setTerminalTokens(result.data);
+            setAnalyzer(prev => {
+                analyzer.terminalTokens = result.data.map(val => {
+                    return { ...val, checked: false }
+                })
+
+                return ({ ...prev, analyzer });
+            });
 
             setLoading(false);
         })();
@@ -85,7 +99,7 @@ const Create = (props) => {
         <Paper style={{ padding: theme.spacing(4) }} >
             {loading ?
                 <CircularLoading height={theme.spacing(6)} /> :
-                <AnalyzerFormStepper steps={steps} analyzer={analyzer} terminalTokens={terminalTokens} handleChangeName={handleChangeName} handleFinish={handleFinish} />}
+                <AnalyzerFormStepper steps={steps} analyzer={analyzer} handleChangeName={handleChangeName} handleFinish={handleFinish} />}
         </Paper>
     )
 }

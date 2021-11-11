@@ -27,6 +27,14 @@ const analyzerService = {
         return { response, result: response.data };
     },
 
+    async postTestAnalyzer(id, content) {
+        const response = await postQueryFor(`/api/analyzer/${id}/test`, {
+            content
+        });
+
+        return { response, result: response.data };
+    },
+
     async putAnalyzer(id, analyzer) {
         const response = await putQueryFor(`/api/analyzer/${id}`, analyzer);
 
