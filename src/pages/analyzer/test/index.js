@@ -44,6 +44,8 @@ const Test = (props) => {
                 return;
             }
 
+            setSnackBar((prev) => ({ ...prev, open: true, severity: "error", message: "Analisador executou com falha." }));
+
             setContentError(error.response.data.errors);
         } finally {
             setLoading(false);
