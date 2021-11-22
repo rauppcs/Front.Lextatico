@@ -121,12 +121,8 @@ const ListTable = ({ rows = [], page, size, count, handleChangePage, handleChang
         }
     }));
 
-    const EnhancedTableToolbar = (props) => {
+    const EnhancedTableToolbar = ({ numSelected }) => {
         const classes = useToolbarStyles();
-
-
-
-        const { numSelected } = props;
 
         return (
             <Toolbar
@@ -141,7 +137,7 @@ const ListTable = ({ rows = [], page, size, count, handleChangePage, handleChang
                         variant="subtitle1"
                         component="div"
                     >
-                        {numSelected} selected
+                        {numSelected} selecionado
                     </Typography>
                 ) : (
                     <Typography
@@ -155,13 +151,13 @@ const ListTable = ({ rows = [], page, size, count, handleChangePage, handleChang
                 )}
 
                 {numSelected > 0 ? (
-                    <Tooltip title={<Typography>Deletar</Typography>} arrow placement="bottom">
+                    <Tooltip title={<Typography>Deletar</Typography>} arrow placement="top">
                         <IconButton onClick={() => handleClickDelete(selected)} aria-label="delete">
                             <DeleteIcon />
                         </IconButton>
                     </Tooltip>
                 ) :
-                    <Tooltip title={<Typography>Criar novo</Typography>} arrow placement="bottom">
+                    <Tooltip title={<Typography>Criar novo</Typography>} arrow placement="top">
                         <Button
                             component={Link}
                             to="analisadores/cadastrar"
@@ -224,12 +220,12 @@ const ListTable = ({ rows = [], page, size, count, handleChangePage, handleChang
         setSelected([]);
     };
 
-    const handleClick = (event, name) => {
-        const selectedIndex = selected.indexOf(name);
+    const handleClick = (event, id) => {
+        const selectedIndex = selected.indexOf(id);
         let newSelected = [];
 
         if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, name);
+            newSelected = newSelected.concat(selected, id);
         } else if (selectedIndex === 0) {
             newSelected = newSelected.concat(selected.slice(1));
         } else if (selectedIndex === selected.length - 1) {
@@ -295,12 +291,12 @@ const ListTable = ({ rows = [], page, size, count, handleChangePage, handleChang
                                             </TableCell>
                                             <TableCell component="td" id={labelId} scope="row" padding="none">{row.name}</TableCell>
                                             <TableCell style={{ display: "flex", justifyContent: "flex-end" }} >
-                                                <Tooltip arrow title={<Typography>Testar</Typography>}>
+                                                <Tooltip placement="top" arrow title={<Typography>Testar</Typography>}>
                                                     <Button className={classesActionButton.actionButton} component={Link} to={`analisadores/testar/${row.id}`} style={{ marginRight: theme.spacing(1) }} variant="outlined" color={"primary"}>
                                                         <TestIcon />
                                                     </Button>
                                                 </Tooltip>
-                                                <Tooltip arrow title={<Typography>Editar</Typography>}>
+                                                <Tooltip placement="top" arrow title={<Typography>Editar</Typography>}>
                                                     <Button className={classesActionButton.actionButton} component={Link} to={`analisadores/editar/${row.id}`} variant="outlined" color="primary" aria-label="editar">
                                                         <EditIcon />
                                                     </Button>
