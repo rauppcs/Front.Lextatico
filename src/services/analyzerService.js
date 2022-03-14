@@ -2,13 +2,13 @@ import { getQueryFor, postQueryFor, httpStatusCodeValid, deleteQueryFor, putQuer
 
 const analyzerService = {
     async getAnalyzer(id) {
-        const response = await getQueryFor(`/api/analyzer/${id}`);
+        const response = await getQueryFor(`/analyzer/${id}`);
 
         return { response, result: response.data };
     },
 
     async getAnalyzers(page = 1, size = 10) {
-        const response = await getQueryFor(`/api/analyzer?page=${page}&size=${size}`);
+        const response = await getQueryFor(`/analyzer?page=${page}&size=${size}`);
 
         return {
             response, result: {
@@ -22,13 +22,13 @@ const analyzerService = {
     },
 
     async postAnalyzer(analyzer) {
-        const response = await postQueryFor("/api/analyzer", analyzer);
+        const response = await postQueryFor("/analyzer", analyzer);
 
         return { response, result: response.data };
     },
 
     async postTestAnalyzer(id, content) {
-        const response = await postQueryFor(`/api/analyzer/${id}/test`, {
+        const response = await postQueryFor(`/analyzer/${id}/test`, {
             content
         });
 
@@ -36,19 +36,19 @@ const analyzerService = {
     },
 
     async putAnalyzer(id, analyzer) {
-        const response = await putQueryFor(`/api/analyzer/${id}`, analyzer);
+        const response = await putQueryFor(`/analyzer/${id}`, analyzer);
 
         return { response, result: response.data };
     },
 
     async deleteAnalyzer(analyzerId) {
-        const response = await deleteQueryFor(`/api/analyzer/${analyzerId}`)
+        const response = await deleteQueryFor(`/analyzer/${analyzerId}`)
 
         return { response, result: httpStatusCodeValid(response.status) }
     },
 
     async deleteAnalyzers(analyzerIds) {
-        const response = await postQueryFor("/api/analyzer/deleteBulk", analyzerIds);
+        const response = await postQueryFor("/analyzer/deleteBulk", analyzerIds);
 
         return { response, result: httpStatusCodeValid(response.status) };
     }

@@ -4,13 +4,13 @@ import { login, logout } from "./authService";
 
 const accountService = {
     async getUser() {
-        const response = await getQueryFor("/api/account/get-user");
+        const response = await getQueryFor("/account/get-user");
 
         return { response, result: response.data };
     },
 
     async login(formUser, setUser) {
-        const response = await postQueryFor("/api/account/login", formUser);
+        const response = await postQueryFor("/account/login", formUser);
 
         if (httpStatusCodeValid(response.status)) {
             login(response.data.data);
@@ -28,19 +28,19 @@ const accountService = {
     },
 
     async signIn(user) {
-        const response = await postQueryFor("/api/account/signin", user);
+        const response = await postQueryFor("/account/signin", user);
 
         return { response, result: response.data };
     },
 
     async validateToken() {
-        const response = await getQueryFor("/api/account/validate-token");
+        const response = await getQueryFor("/account/validate-token");
 
         return { response, result: httpStatusCodeValid(response.status) };
     },
 
     async refreshToken(refreshToken) {
-        const response = await postQueryFor("/api/account/refresh-token", {
+        const response = await postQueryFor("/account/refresh-token", {
             refreshToken
         });
 
@@ -52,13 +52,13 @@ const accountService = {
     },
 
     async resetPassword(user) {
-        const response = await postQueryFor("/api/account/reset-password", user);
+        const response = await postQueryFor("/account/reset-password", user);
 
         return { response, result: response.data };
     },
 
     async forgotPassword(email) {
-        const response = await postQueryFor("/api/account/forgot-password", {
+        const response = await postQueryFor("/account/forgot-password", {
             email
         });
 
