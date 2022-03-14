@@ -10,7 +10,7 @@ const accountService = {
     },
 
     async login(formUser, setUser) {
-        const response = await postQueryFor("/account/login", formUser);
+        const response = await postQueryFor("/auth/login", formUser);
 
         if (httpStatusCodeValid(response.status)) {
             login(response.data.data);
@@ -34,13 +34,13 @@ const accountService = {
     },
 
     async validateToken() {
-        const response = await getQueryFor("/account/validate-token");
+        const response = await getQueryFor("/auth/validate-token");
 
         return { response, result: httpStatusCodeValid(response.status) };
     },
 
     async refreshToken(refreshToken) {
-        const response = await postQueryFor("/account/refresh-token", {
+        const response = await postQueryFor("/auth/refresh-token", {
             refreshToken
         });
 
