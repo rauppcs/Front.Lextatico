@@ -1,6 +1,7 @@
 import axios from "axios";
 import accountService from "../accountService";
 import { getToken } from "../authService";
+import { httpStatusCodeValid } from "../api";
 
 const netError = {
 	result: null,
@@ -39,10 +40,16 @@ api.interceptors.response.use(resp => resp, async (error) => {
 
 		const { refreshToken } = getToken();
 
-		await accountService.refreshToken(refreshToken);
+		const { response } = await accountService.refreshToken(refreshToken);
+
+		if (!httpStatusCodeValid(response.status))
+			window.location.href = "/login";
 
 		return api.request(error.config);
 	}
+
+	if (status === 400 && error.config.url === "/auth/refresh-token")
+		return error.response;
 
 	return Promise.reject(error);
 });
