@@ -1,4 +1,4 @@
-import { Typography, Link } from "@material-ui/core"
+import { Typography, Link, InputAdornment, IconButton } from "@material-ui/core"
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { useState, useContext, useEffect } from "react"
 import { useLocation } from "react-router"
@@ -8,6 +8,7 @@ import AccountService from "../../services/accountService"
 import { useQuery } from "../../utils/url"
 import { LextaticoTextField, LextaticoBox, LextaticoForm, LextaticoFormContentLeft, LextaticoButton, LextaticoHr } from "./styles"
 import { LextaticoBoxError } from "../../styles/common"
+import { Visibility, VisibilityOff } from "@material-ui/icons"
 
 const LextaticoLink = (props) => {
     return <Link {...props} component={RouterLink}>{props.children}</Link>
@@ -19,6 +20,10 @@ const ResetPassword = (props) => {
     useEffect(() => {
         setTitleName("Reset password");
     }, [setTitleName]);
+
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleClickShowPassword = () => setShowPassword(!showPassword);
 
     const query = useQuery(useLocation().search)
 
@@ -89,16 +94,28 @@ const ResetPassword = (props) => {
                     <Typography style={{ width: "100%" }} variant="h5" paragraph component="h1">Resete a senha.</Typography>
                     {formUser.errors.length > 0 && <LextaticoBoxError>{formUser.errors.map(error => <span>* {error}</span>)}</LextaticoBoxError>}
                     <LextaticoTextField
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         label="Senha"
                         variant="outlined"
                         value={formUser.password.value}
                         error={formUser.password.error !== ""}
                         helperText={formUser.password.error}
                         onChange={e => setFormUser((prev) => ({ ...prev, password: { value: e.target.value, error: "" } }))}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="Exibir senha"
+                                        onClick={handleClickShowPassword}
+                                    >
+                                        {!showPassword ? <Visibility /> : <VisibilityOff />}
+                                    </IconButton>
+                                </InputAdornment>
+                            )
+                        }}
                     />
                     <LextaticoTextField
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         label="Confirmação de senha"
                         variant="outlined"
                         value={formUser.confirmPassword.value}
@@ -106,6 +123,18 @@ const ResetPassword = (props) => {
                         helperText={formUser.confirmPassword.error}
                         onKeyDown={e => e.key === "Enter" && isOk ? handleSubmit() : null}
                         onChange={e => setFormUser((prev) => ({ ...prev, confirmPassword: { value: e.target.value, error: "" } }))}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="Exibir senha"
+                                        onClick={handleClickShowPassword}
+                                    >
+                                        {!showPassword ? <Visibility /> : <VisibilityOff />}
+                                    </IconButton>
+                                </InputAdornment>
+                            )
+                        }}
                     />
                     <LextaticoButton onClick={handleSubmit} disabled={!isOk} type="submit">{!loading
                         ? "Resetar"

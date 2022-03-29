@@ -62,7 +62,7 @@ const FormUser = ({ formUser, setFormUser, handleSubmit, isOk, loading, forgotNe
                                 aria-label="Exibir senha"
                                 onClick={handleClickShowPassword}
                             >
-                                {showPassword ? <Visibility /> : <VisibilityOff />}
+                                {!showPassword ? <Visibility /> : <VisibilityOff />}
                             </IconButton>
                         </InputAdornment>
                     )
@@ -183,7 +183,6 @@ const Login = (props) => {
 
     const isOk = formUser.email.value !== "" && formUser.password.value !== "" && !loading;
 
-
     const handleSubmit = async e => {
         try {
             setLoading(true);
@@ -203,6 +202,10 @@ const Login = (props) => {
             if (error.response.status >= 500)
                 setSnackBar((prev) => ({ ...prev, open: true, severity: "error", message: error.response.data.errors.map(({ message }) => `${message}\n`) }));
             else {
+                error.response.data.warnings.forEach(({ property, message }) => {
+                    setSnackBar((prev) => ({ ...prev, open: true, severity: "warning", message }));
+                });
+
                 error.response.data.errors.forEach(({ property, message }) => {
                     if (property !== "")
                         formUser[property].error = message;

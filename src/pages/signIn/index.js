@@ -132,7 +132,7 @@ const SignIn = (props) => {
                                     aria-label="Exibir senha"
                                     onClick={handleClickShowPassword}
                                 >
-                                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                                    {!showPassword ? <Visibility /> : <VisibilityOff />}
                                 </IconButton>
                             </InputAdornment>
                         )
@@ -155,7 +155,7 @@ const SignIn = (props) => {
                                     aria-label="Exibir senha"
                                     onClick={handleClickShowPassword}
                                 >
-                                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                                    {!showPassword ? <Visibility /> : <VisibilityOff />}
                                 </IconButton>
                             </InputAdornment>
                         )

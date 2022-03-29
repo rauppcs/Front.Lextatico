@@ -54,9 +54,9 @@ const Routes = () => {
 		<BrowserRouter>
 			<Switch>
 				<PrivateRoute path="/analisadores" component={Analyzer} />
-				<PublicRoute path="/login" component={Login} />
-				<PublicRoute path="/signIn" component={SignIn} />
-				<PublicRoute path="/resetPassword" component={ResetPassword} />
+				<PublicRoute exact path="/login" component={Login} />
+				<PublicRoute exact path="/signIn" component={SignIn} />
+				<PublicRoute exact path="/resetPassword" component={ResetPassword} />
 				<Redirect exact from="/" to="/analisadores" />
 				<PublicRoute path="*" component={NotFound} />
 			</Switch>
