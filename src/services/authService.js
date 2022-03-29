@@ -6,7 +6,7 @@ const TOKEN_KEY = "@lextatico-Token";
 
 const AUTHENTICATED_KEY = "@lextatico-Authenticated";
 
-export const isAuthenticated = localStorage.getItem(AUTHENTICATED_KEY).toLowerCase() === "true" || false;
+export const isAuthenticated = localStorage.getItem(AUTHENTICATED_KEY)?.toLowerCase() === "true" || false;
 
 export const validToken = async () => {
 	try {
