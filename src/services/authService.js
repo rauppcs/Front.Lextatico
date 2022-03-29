@@ -38,7 +38,7 @@ export const login = ({ accessToken, refreshToken, user }) => {
 };
 
 export const logout = () => {
-	localStorage.setItem(AUTHENTICATED_KEY, false);
+	localStorage.removeItem(AUTHENTICATED_KEY, false);
 
 	localStorage.removeItem(USER_KEY);
 

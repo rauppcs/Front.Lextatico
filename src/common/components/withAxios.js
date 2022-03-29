@@ -4,7 +4,7 @@ import AuthContext from "../../contexts/auth";
 import ServiceContext from "../../contexts/services";
 import accountService from "../../services/accountService";
 import { httpStatusCodeValid } from "../../services/api";
-import { getToken } from "../../services/authService";
+import { getToken, logout } from "../../services/authService";
 
 const netError = {
     result: null,
@@ -52,6 +52,7 @@ const WithAxios = ({ children }) => {
                 const { response } = await accountService.refreshToken(refreshToken);
 
                 if (!httpStatusCodeValid(response.status)) {
+                    accountService.logout();
                     setIsAuthenticated(false);
                     setSnackBar((prev) => ({ ...prev, open: true, severity: "warning", message: "Seu login expirou, faça o login novamente para continuar navegando." }));
 
