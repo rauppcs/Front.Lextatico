@@ -17,9 +17,11 @@ import Container from '@material-ui/core/Container';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import AccountPopover from './accountPopover';
-import { MyContext } from '../../../App';
+import AuthContext from '../../../contexts/auth';
 import AccountService from '../../../services/accountService';
 import { mainList } from "./mainList";
+import { withRouter } from 'react-router-dom/cjs/react-router-dom.min';
+import UserContext from '../../../contexts/user';
 
 // function Copyright() {
 //     return (
@@ -158,8 +160,10 @@ function ListItemLink(props) {
     return <ListItem className={classes.upper} activeClassName={classes.active} button component={NavLink} {...props} />;
 }
 
-export default function Layout({ children }) {
-    const { setUser, setAuthenticated } = useContext(MyContext);
+function Layout({ history, children }) {
+    const { setUser } = useContext(UserContext);
+
+    const { setIsAuthenticated } = useContext(AuthContext);
 
     const classes = useStyles();
     const route = useRouteMatch();
@@ -174,9 +178,13 @@ export default function Layout({ children }) {
     };
 
     const handleLogout = () => {
-        AccountService.logout(setUser);
+        AccountService.logout(setIsAuthenticated);
 
-        setAuthenticated(false);
+        setUser({});
+
+        history.push("/login");
+
+        setIsAuthenticated(false);
     }
 
     return (
@@ -235,3 +243,5 @@ export default function Layout({ children }) {
         </div>
     );
 }
+
+export default withRouter(Layout);

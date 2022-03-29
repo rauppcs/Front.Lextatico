@@ -3,19 +3,19 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import { useState, useContext, useEffect } from "react"
 import { useLocation } from "react-router"
 import { Link as RouterLink } from "react-router-dom"
-import { MyContext } from "../../App"
 import AccountService from "../../services/accountService"
 import { useQuery } from "../../utils/url"
 import { LextaticoTextField, LextaticoBox, LextaticoForm, LextaticoFormContentLeft, LextaticoButton, LextaticoHr } from "./styles"
 import { LextaticoBoxError } from "../../styles/common"
 import { Visibility, VisibilityOff } from "@material-ui/icons"
+import ServiceContext from "../../contexts/services"
 
 const LextaticoLink = (props) => {
     return <Link {...props} component={RouterLink}>{props.children}</Link>
 }
 
 const ResetPassword = (props) => {
-    const { setSnackBar, setTitleName } = useContext(MyContext);
+    const { setSnackBar, setTitleName } = useContext(ServiceContext);
 
     useEffect(() => {
         setTitleName("Reset password");

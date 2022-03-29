@@ -2,14 +2,14 @@ import { Paper, useTheme } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
 import { Fragment, useContext, useEffect, useState } from "react";
 import { withRouter } from "react-router-dom/cjs/react-router-dom.min";
-import { MyContext } from "../../../App";
 import AlertDialog from "../../../common/components/alert";
 import { CircularLoading } from "../../../common/components/loading";
+import ServiceContext from "../../../contexts/services";
 import analyzerService from "../../../services/analyzerService";
 import ListTable from "./listTable";
 
 const List = ({ history }) => {
-    const { setTitleName } = useContext(MyContext);
+    const { setTitleName } = useContext(ServiceContext);
 
     useEffect(() => {
         setTitleName("Analisadores");

@@ -2,11 +2,11 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useTheme } from '@material-ui/core/styles';
 import { Box, Button, CircularProgress, Grid, Paper, TextField, Typography } from '@material-ui/core';
 import { useParams, withRouter } from 'react-router-dom';
-import { MyContext } from '../../../App';
 import analyzerService from "../../../services/analyzerService";
+import ServiceContext from '../../../contexts/services';
 
 const Test = (props) => {
-    const { setTitleName, setSnackBar } = useContext(MyContext);
+    const { setTitleName, setSnackBar } = useContext(ServiceContext);
 
     useEffect(() => {
         setTitleName("Analisadores");

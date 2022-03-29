@@ -7,9 +7,13 @@ import { LextaticoTextField, LextaticoBox, LextaticoForm, LextaticoFormContentCe
 import Logo from "../../assets/Logo.png"
 import accountService from "../../services/accountService"
 import CircularProgress from '@material-ui/core/CircularProgress'
-
-import { MyContext } from "../../App";
+import AuthContext from "../../contexts/auth";
 import { Visibility, VisibilityOff } from "@material-ui/icons"
+import { httpStatusCodeValid } from "../../services/api"
+import { useQuery } from "../../utils/url"
+import { useLocation } from "react-router-dom/cjs/react-router-dom.min"
+import UserContext from "../../contexts/user"
+import ServiceContext from "../../contexts/services"
 
 const useStyles = makeStyles({
     gridCenter: {
@@ -116,7 +120,7 @@ const ForgotPassword = ({ loading, forgotHandleClick, forgotBackHandleClick, for
 }
 
 const SwipeableForm = (props) => {
-    const { setSnackBar } = useContext(MyContext);
+    const { setSnackBar } = useContext(ServiceContext);
 
     const [activeStepe, setActiveStep] = useState(0);
 
@@ -161,7 +165,15 @@ const SwipeableForm = (props) => {
 }
 
 const Login = (props) => {
-    const { setSnackBar, setUser, setTitleName } = useContext(MyContext);
+    const { setUser } = useContext(UserContext);
+
+    const { setSnackBar, setTitleName } = useContext(ServiceContext);
+
+    const { setIsAuthenticated } = useContext(AuthContext);
+
+    const query = useQuery(useLocation().search)
+
+    const returnUrl = query.get("returnUrl");
 
     useEffect(() => {
         setTitleName("Login");
@@ -195,9 +207,20 @@ const Login = (props) => {
                 password: formUser.password.value
             };
 
-            await accountService.login(user, setUser);
+            const { response } = await accountService.login(user);
 
-            props.history.push("/");
+            if (httpStatusCodeValid(response.status)) {
+                setUser(response.data.data.user);
+
+                setIsAuthenticated(true);
+
+                if (returnUrl && props.location.state.from)
+                    props.history.push(props.location.state.from);
+                else
+                    props.history.push("/");
+            }
+
+
         } catch (error) {
             if (error.response.status >= 500)
                 setSnackBar((prev) => ({ ...prev, open: true, severity: "error", message: error.response.data.errors.map(({ message }) => `${message}\n`) }));

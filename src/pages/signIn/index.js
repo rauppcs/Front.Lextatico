@@ -5,16 +5,16 @@ import { LextaticoBoxError } from "../../styles/common"
 import { LextaticoTextField, LextaticoBox, LextaticoForm, LextaticoButton, LextaticoHr, LextaticoImg } from "./styles"
 import Logo from "../../assets/Logo.png"
 import AccountService from "../../services/accountService"
-import { MyContext } from "../../App"
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { Visibility, VisibilityOff } from "@material-ui/icons";
+import ServiceContext from "../../contexts/services";
 
 const LextaticoLink = (props) => {
     return <Link {...props} component={RouterLink}>{props.children}</Link>
 }
 
 const SignIn = (props) => {
-    const { setSnackBar, setTitleName } = useContext(MyContext);
+    const { setSnackBar, setTitleName } = useContext(ServiceContext);
 
     useEffect(() => {
         setTitleName("SignIn");

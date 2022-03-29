@@ -5,11 +5,11 @@ import AnalyzerFormStepper from '../analyzerFormStepper';
 import terminalTokenService from '../../../services/terminalTokenService';
 import analyzerService from "../../../services/analyzerService";
 import { CircularLoading } from '../../../common/components/loading';
-import { MyContext } from '../../../App';
 import { useParams, withRouter } from 'react-router-dom';
+import ServiceContext from '../../../contexts/services';
 
 const Edit = (props) => {
-    const { setTitleName, setSnackBar } = useContext(MyContext);
+    const { setTitleName, setSnackBar } = useContext(ServiceContext);
 
     useEffect(() => {
         setTitleName("Analisadores");
@@ -78,7 +78,7 @@ const Edit = (props) => {
 
                 analyzerResult.data.terminalTokens = terminalTokensResult.data.map(val => {
                     var checked = analyzerResult.data.terminalTokens?.find(f => f.id === val.id);
-            
+
                     return { ...val, checked: checked !== undefined }
                 })
 

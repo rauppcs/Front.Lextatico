@@ -6,10 +6,10 @@ import AnalyzerFormStepper from '../analyzerFormStepper';
 import terminalTokenService from '../../../services/terminalTokenService';
 import analyzerService from "../../../services/analyzerService";
 import { CircularLoading } from '../../../common/components/loading';
-import { MyContext } from '../../../App';
+import ServiceContext from '../../../contexts/services';
 
 const Create = (props) => {
-    const { setTitleName, setSnackBar } = useContext(MyContext);
+    const { setTitleName, setSnackBar } = useContext(ServiceContext);
 
     useEffect(() => {
         setTitleName("Analisadores");
@@ -83,16 +83,16 @@ const Create = (props) => {
             const { result } = await terminalTokenService.getTerminalTokens();
 
             setAnalyzer(prev => {
-                analyzer.terminalTokens = result.data.map(val => {
+                const terminalTokens = result.data.map(val => {
                     return { ...val, checked: false }
                 })
 
-                return ({ ...prev, analyzer });
+                return ({ ...prev, terminalTokens});
             });
 
             setLoading(false);
         })();
-    }, []);
+    }, [setAnalyzer]);
 
     return (
         <Paper style={{ padding: theme.spacing(4) }} >

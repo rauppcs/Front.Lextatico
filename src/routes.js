@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react"
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom"
-import { isAuthenticated } from "./services/authService"
 import Login from "./pages/logIn"
 import SignIn from "./pages/signIn"
-import { MyContext } from "./App"
+import AuthContext from "./contexts/auth";
 import { useContext } from "react"
 import Analyzer from "./pages/analyzer"
-import { CircularLoading } from "./common/components/loading"
 import NotFound from "./pages/notFound"
 import ResetPassword from "./pages/resetPassword"
+import { validToken } from "./services/authService";
+import { CircularLoading } from "./common/components/loading";
 
-const PublicRoute = ({ component: Component, ...rest }) => {
+export const PublicRoute = ({ component: Component, ...rest }) => {
 	return (
 		<Route
 			{...rest}
@@ -19,19 +19,22 @@ const PublicRoute = ({ component: Component, ...rest }) => {
 	);
 }
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
+export const PrivateRoute = ({ component: Component, ...rest }) => {
+	const { isAuthenticated } = useContext(AuthContext);
+
 	const [loading, setLoading] = useState(true);
-	const { authenticated, setAuthenticated } = useContext(MyContext);
+
+	const [authenticated, setAuthenticated] = useState(false);
 
 	useEffect(() => {
 		(async function () {
-			const authenticated = await isAuthenticated();
+			const validated = await validToken();
 
-			setAuthenticated(authenticated);
+			setAuthenticated(validated && isAuthenticated);
 
 			setLoading(false);
 		})();
-	}, [setAuthenticated]);
+	});
 
 	return (
 		!loading ?
@@ -41,7 +44,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 					authenticated ? (
 						<Component {...props} />
 					) : (
-						<Redirect to={{ pathname: "/login", state: { from: props.location } }} />
+						<Redirect to={{ pathname: "/login", search: `?returnUrl=${props.location.pathname}`, state: { from: props.location } }} />
 					)
 				}
 			/>

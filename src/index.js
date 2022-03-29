@@ -5,13 +5,22 @@ import reportWebVitals from './reportWebVitals'
 import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { globalTheme } from "./styles/theme"
+import { ServiceProvider } from './contexts/services';
+import { AuthProvider } from './contexts/auth';
+import { UserProvider } from './contexts/user';
 
 ReactDOM.render(
 	<React.StrictMode>
-		<ThemeProvider theme={globalTheme}>
-			<CssBaseline />
-			<App />
-		</ThemeProvider>
+		<ServiceProvider>
+			<AuthProvider>
+				<UserProvider>
+					<ThemeProvider theme={globalTheme}>
+						<CssBaseline />
+						<App />
+					</ThemeProvider>
+				</UserProvider>
+			</AuthProvider>
+		</ServiceProvider>
 	</React.StrictMode>,
 	document.getElementById('root')
 );

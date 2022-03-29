@@ -16,6 +16,7 @@ export default function MenuPopover({ children, sx, ...other }) {
                     overflow: "inherit",
                     mt: 1.5,
                     ml: 0.5,
+                    maxWidth: "223px"
                 },
                 sx: {
 

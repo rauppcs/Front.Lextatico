@@ -1,23 +1,13 @@
 import Routes from "./routes"
-import { useState, createContext } from "react";
+import { useContext } from "react";
 import Snackbar from '@material-ui/core/Snackbar';
 import { Alert } from "@material-ui/lab";
-import { getUser } from "./services/authService";
 import { Helmet } from "react-helmet";
-
-
-export const MyContext = createContext();
+import WithAxios from "./common/components/withAxios";
+import ServiceContext from "./contexts/services";
 
 const App = () => {
-	const [titleName, setTitleName] = useState("");
-	const [user, setUser] = useState(getUser());
-	const [authenticated, setAuthenticated] = useState(false);
-
-	const [snackBar, setSnackBar] = useState({
-		open: false,
-		severity: "info",
-		message: ""
-	});
+	const { snackBar, setSnackBar, titleName } = useContext(ServiceContext);
 
 	const handleClose = (event, reason) => {
 		if (reason === 'clickaway') {
@@ -28,7 +18,7 @@ const App = () => {
 	};
 
 	return (
-		<MyContext.Provider value={{ setSnackBar, authenticated, setAuthenticated, user, setUser, titleName, setTitleName }}>
+		<WithAxios>
 			<Helmet title={`${process.env.REACT_APP_TITLE} | ${titleName}`} />
 			<Routes></Routes>
 			<Snackbar anchorOrigin={{ vertical: "top", horizontal: "right" }} open={snackBar.open} autoHideDuration={6000} onClose={handleClose}>
@@ -36,7 +26,7 @@ const App = () => {
 					{snackBar.message}
 				</Alert>
 			</Snackbar>
-		</MyContext.Provider>
+		</WithAxios>
 	);
 }
 

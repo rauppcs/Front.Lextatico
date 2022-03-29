@@ -1,7 +1,6 @@
 import { getQueryFor, postQueryFor, httpStatusCodeValid } from "./api";
 import { login, logout } from "./authService";
 
-
 const accountService = {
     async getUser() {
         const response = await getQueryFor("/account/get-user");
@@ -9,22 +8,17 @@ const accountService = {
         return { response, result: response.data };
     },
 
-    async login(formUser, setUser) {
+    async login(formUser) {
         const response = await postQueryFor("/auth/login", formUser);
 
-        if (httpStatusCodeValid(response.status)) {
+        if (httpStatusCodeValid(response.status))
             login(response.data.data);
-
-            setUser(response.data.data.user);
-        }
 
         return { response, result: response.data };
     },
 
-    async logout(setUser) {
+    async logout() {
         logout();
-
-        setUser({});
     },
 
     async signIn(user) {
@@ -46,6 +40,8 @@ const accountService = {
 
         if (httpStatusCodeValid(response.status) && response.data.errors.length === 0) {
             login(response.data.data);
+        } else {
+            logout();
         }
 
         return { response, result: response.data };

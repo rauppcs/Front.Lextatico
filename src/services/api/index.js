@@ -1,4 +1,4 @@
-import { api } from "./apiService";
+import { api } from "../../common/components/withAxios";
 
 export const httpStatusCodeValid = (statusCode) => {
 	return statusCode >= 200 && statusCode < 299;

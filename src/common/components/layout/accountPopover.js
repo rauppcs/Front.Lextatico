@@ -2,12 +2,12 @@ import { useRef, useState, useContext } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import { alpha } from '@material-ui/core/styles';
-import { Button, Box, Divider, MenuItem, Typography, IconButton } from '@material-ui/core';
+import { Button, Box, Divider, MenuItem, Typography, IconButton, Tooltip } from '@material-ui/core';
 import Home from "@material-ui/icons/Home"
 // components
 import MenuPopover from '../menuPopover';
-import { MyContext } from '../../../App';
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import UserContext from '../../../contexts/user';
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
@@ -32,7 +32,7 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover({ handleLogout }) {
     const anchorRef = useRef(null);
-    const { user } = useContext(MyContext);
+    const { user } = useContext(UserContext);
 
     const [open, setOpen] = useState(false);
 
@@ -75,12 +75,18 @@ export default function AccountPopover({ handleLogout }) {
                 sx={{ width: 20 }}
             >
                 <Box sx={{ my: 1.5, px: 2.5 }}>
-                    <Typography variant="subtitle1" noWrap>
-                        {user.name}
-                    </Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-                        {user.email}
-                    </Typography>
+                    <Tooltip title={<Typography>{`${user.name}`}</Typography>} arrow placement='top'>
+                        <Typography variant="subtitle1" noWrap>
+                            {user.name}
+                        </Typography>
+                    </Tooltip>
+
+                    <Tooltip title={<Typography>{`${user.email}`}</Typography>} arrow placement='top'>
+                        <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
+                            {user.email}
+                        </Typography>
+                    </Tooltip>
+
                 </Box>
 
                 <Divider sx={{ my: 1 }} />
