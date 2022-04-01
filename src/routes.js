@@ -9,6 +9,7 @@ import NotFound from "./pages/notFound"
 import ResetPassword from "./pages/resetPassword"
 import { validToken } from "./services/authService";
 import { CircularLoading } from "./common/components/loading";
+import WithAxios from "./common/components/withAxios";
 
 export const PublicRoute = ({ component: Component, ...rest }) => {
 	return (
@@ -55,14 +56,17 @@ export const PrivateRoute = ({ component: Component, ...rest }) => {
 const Routes = () => {
 	return (
 		<BrowserRouter>
-			<Switch>
-				<PrivateRoute path="/analisadores" component={Analyzer} />
-				<PublicRoute exact path="/login" component={Login} />
-				<PublicRoute exact path="/signIn" component={SignIn} />
-				<PublicRoute exact path="/resetPassword" component={ResetPassword} />
-				<Redirect exact from="/" to="/analisadores" />
-				<PublicRoute path="*" component={NotFound} />
-			</Switch>
+			<WithAxios>
+				<Switch>
+					<PrivateRoute path="/analisadores" component={Analyzer} />
+					<PublicRoute exact path="/login" component={Login} />
+					<PublicRoute exact path="/signIn" component={SignIn} />
+					<PublicRoute exact path="/resetPassword" component={ResetPassword} />
+					<Redirect exact from="/" to="/analisadores" />
+					<PublicRoute path="/404" component={NotFound} />
+					<Redirect path="*" to={"/404"} />
+				</Switch>
+			</WithAxios>
 		</BrowserRouter>
 	);
 }

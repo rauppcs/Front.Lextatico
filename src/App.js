@@ -1,9 +1,8 @@
 import Routes from "./routes"
-import { useContext } from "react";
+import { Fragment, useContext } from "react";
 import Snackbar from '@material-ui/core/Snackbar';
 import { Alert } from "@material-ui/lab";
 import { Helmet } from "react-helmet";
-import WithAxios from "./common/components/withAxios";
 import ServiceContext from "./contexts/services";
 
 const App = () => {
@@ -18,7 +17,7 @@ const App = () => {
 	};
 
 	return (
-		<WithAxios>
+		<Fragment>
 			<Helmet title={`${process.env.REACT_APP_TITLE} | ${titleName}`} />
 			<Routes></Routes>
 			<Snackbar anchorOrigin={{ vertical: "top", horizontal: "right" }} open={snackBar.open} autoHideDuration={6000} onClose={handleClose}>
@@ -26,7 +25,7 @@ const App = () => {
 					{snackBar.message}
 				</Alert>
 			</Snackbar>
-		</WithAxios>
+		</Fragment>
 	);
 }
 

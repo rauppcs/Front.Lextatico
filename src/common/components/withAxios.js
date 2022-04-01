@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useContext, useMemo } from "react";
+import { withRouter } from "react-router-dom/cjs/react-router-dom.min";
 import AuthContext from "../../contexts/auth";
 import ServiceContext from "../../contexts/services";
 import accountService from "../../services/accountService";
 import { httpStatusCodeValid } from "../../services/api";
-import { getToken, logout } from "../../services/authService";
+import { getToken } from "../../services/authService";
 
 const netError = {
     result: null,
@@ -18,7 +19,7 @@ export const api = axios.create({
     baseURL: process.env.REACT_APP_API,
 });
 
-const WithAxios = ({ children }) => {
+const WithAxios = ({ children, history }) => {
     const { setSnackBar } = useContext(ServiceContext);
 
     const { setIsAuthenticated } = useContext(AuthContext);
@@ -44,6 +45,9 @@ const WithAxios = ({ children }) => {
 
             const { status } = error.response;
 
+            if (status === 404)
+                history.push("/404");
+
             if (status === 401 && error.config && !error.config.__isRetryRequest) {
                 error.config.__isRetryRequest = true;
 
@@ -67,9 +71,9 @@ const WithAxios = ({ children }) => {
 
             return Promise.reject(error);
         });
-    }, [setIsAuthenticated, setSnackBar])
+    }, [setIsAuthenticated, setSnackBar, history])
 
     return children;
 }
 
-export default WithAxios;
+export default withRouter(WithAxios);
