@@ -335,10 +335,10 @@ const AnalyzerNonTerminalTokenItem = ({ item, selectedTerminalTokens, selectedNo
                 <Typography style={{ marginInline: 10 }} variant="h5" component={"span"}>:</Typography>
             </Grid>
 
-            <Grid style={{ display: "flex", alignItems: "center" }} item md={9}>
+            <Grid style={{ display: "inline-block", alignItems: "center" }} item md={9}>
                 {item.nonTerminalTokenRules.map((nonTerminalTokenRule, indexNonTerminalTokenRule) => {
                     return (
-                        <Box key={indexNonTerminalTokenRule} style={{ display: "inline-flex" }}>
+                        <Box key={indexNonTerminalTokenRule} style={{ display: "inline-flex", marginBottom: "10px" }}>
                             {nonTerminalTokenRule.nonTerminalTokenRuleClauses
                                 .sort((a, b) => a.sequence - b.sequence)
                                 .map((nonTerminalTokenRuleClause, indexNonTerminalTokenRuleClause) => {
