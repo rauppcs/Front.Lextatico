@@ -541,7 +541,7 @@ const AnalyzerFormStepper = ({ loading, steps, analyzer, handleChangeName, handl
 
     return (
         <div className={classes.root}>
-            <Stepper activeStep={activeStep}>
+            <Stepper activeStep={activeStep} alternativeLabel>
                 {steps.map((label, index) => {
                     const stepProps = {};
 
