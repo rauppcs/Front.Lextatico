@@ -491,16 +491,16 @@ const AnalyzerAddDialog = ({ listValue, onClose, open, tokenType }) => {
     );
 }
 
-const AnalyzerFormStepper = ({ loading, steps, analyzer, handleChangeName, handleFinish }) => {
+const AnalyzerFormStepper = ({ history, loading, steps, formAnalyzer, handleChangeName, handleFinish }) => {
     const classes = useStylesFormStepper();
 
     const theme = useTheme();
 
     const [activeStep, setActiveStep] = useState(0);
 
-    const [selectedNonTerminalTokens, setSelectedNonTerminalTokens] = useState(analyzer.nonTerminalTokens)
+    const [selectedNonTerminalTokens, setSelectedNonTerminalTokens] = useState(formAnalyzer.nonTerminalTokens)
 
-    const [selectedTerminalTokens, setSelectedTerminalTokens] = useState(analyzer.terminalTokens);
+    const [selectedTerminalTokens, setSelectedTerminalTokens] = useState(formAnalyzer.terminalTokens);
 
     const handleNext = () => {
         if (activeStep === steps.length - 1)
@@ -531,7 +531,9 @@ const AnalyzerFormStepper = ({ loading, steps, analyzer, handleChangeName, handl
                         required
                         label={"Nome"}
                         variant="outlined"
-                        value={analyzer.name}
+                        value={formAnalyzer.name.value}
+                        error={formAnalyzer.name.error !== ""}
+                        helperText={formAnalyzer.name.error}
                         onChange={handleChangeName} />
                 )
             default:

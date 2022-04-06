@@ -23,8 +23,13 @@ const Edit = (props) => {
 
     const [loadingFinish, setLoadingFinish] = useState(false);
 
-    const [analyzer, setAnalyzer] = useState({
-        name: "",
+    const [formAnalyzer, setFormAnalyzer] = useState({
+        errors: [],
+        warnings: [],
+        name: {
+            value: "",
+            error: ""
+        },
         terminalTokens: [],
         nonTerminalTokens: []
     });
@@ -39,11 +44,17 @@ const Edit = (props) => {
         try {
             setLoadingFinish(true);
 
-            analyzer.terminalTokens = selectedTerminalTokens.filter(f => f.checked === true);
+            formAnalyzer.terminalTokens = selectedTerminalTokens.filter(f => f.checked === true);
 
-            analyzer.nonTerminalTokens = selectedNonTerminalTokens;
+            formAnalyzer.nonTerminalTokens = selectedNonTerminalTokens;
 
-            setAnalyzer(prev => ({ ...prev, analyzer }));
+            setFormAnalyzer(prev => ({ ...prev, formAnalyzer }));
+
+            const analyzer = {
+                name: formAnalyzer.name.value,
+                terminalTokens: formAnalyzer.terminalTokens,
+                nonTerminalTokens: formAnalyzer.nonTerminalTokens
+            }
 
             await analyzerService.putAnalyzer(id, analyzer);
 
@@ -51,18 +62,26 @@ const Edit = (props) => {
         } catch (error) {
             if (error.response.status >= 500)
                 setSnackBar((prev) => ({ ...prev, open: true, severity: "error", message: error.response.data.errors.map(({ message }) => `${message}\n`) }));
+            else {
+                error.response.data.errors.forEach(({ property, message }) => {
+                    if (property !== "")
+                        formAnalyzer[property].error = message;
+                    else {
+                        formAnalyzer.errors.push(message)
+                    }
+                });
 
-            // TODO: AQUI CRIAR VARIAVEL COM PROP/ERRO PARA ENVIAR PARA DENTRO DO ANALYZERFORMSTEPPER
-            // }
+                setFormAnalyzer((prev) => ({ ...prev, formAnalyzer }));
+            }
         } finally {
             setLoadingFinish(false);
         }
     }
 
-    const handleChangeName = (newName, n) => {
-        setAnalyzer(prev => {
+    const handleChangeName = newName => {
+        setFormAnalyzer(prev => {
             return {
-                ...prev, name: newName.target.value
+                ...prev, name: { value: newName.target.value, error: "" }
             }
         })
     }
@@ -82,7 +101,17 @@ const Edit = (props) => {
                     return { ...val, checked: checked !== undefined }
                 })
 
-                setAnalyzer(analyzerResult.data);
+                setFormAnalyzer(prev => {
+                    return {
+                        ...prev,
+                        name: {
+                            value: analyzerResult.data.name,
+                            error: ""
+                        },
+                        terminalTokens: analyzerResult.data.terminalTokens,
+                        nonTerminalTokens: analyzerResult.data.nonTerminalTokens
+                    }
+                });
             } catch (error) {
                 if (error.response.status >= 500)
                     setSnackBar((prev) => ({ ...prev, open: true, severity: "error", message: error.response.data.errors.map(({ message }) => `${message}\n`) }));
@@ -98,7 +127,7 @@ const Edit = (props) => {
         <Paper style={{ padding: theme.spacing(4) }} >
             {loading ?
                 <CircularLoading height={theme.spacing(6)} /> :
-                <AnalyzerFormStepper loading={loadingFinish} steps={steps} analyzer={analyzer} handleChangeName={handleChangeName} handleFinish={handleFinish} />}
+                <AnalyzerFormStepper history={props.history} loading={loadingFinish} steps={steps} formAnalyzer={formAnalyzer} handleChangeName={handleChangeName} handleFinish={handleFinish} />}
         </Paper>
     )
 }

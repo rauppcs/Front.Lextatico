@@ -57,13 +57,13 @@ const List = ({ history }) => {
 
             setPage(1);
 
-            setReload(true);
-
             setOpen(false);
         } catch (error) {
 
         } finally {
             setLoading(false);
+            
+            setReload(true);
         }
     }
 
